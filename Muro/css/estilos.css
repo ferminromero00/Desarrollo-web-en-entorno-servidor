@@ -1,0 +1,135 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: fantasy
+}
+
+#login {
+    width: 50%;
+    margin: 3em auto;
+    border: 2px dashed black;
+    padding: 2em;
+}
+
+#login form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+#login form input[type="text"],
+#login form input[type="password"] {
+    width: 55%;
+    margin: 0 auto;
+}
+
+#login form input[type="submit"] {
+    margin: 0 auto;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+h4 {
+    text-align: center;
+    color: red;
+}
+
+aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 1.5em;
+    height: 100vh;
+    background-color: whitesmoke;
+    box-shadow: 0 0 8px inset black;
+}
+
+aside li {
+    margin: 0.5em;
+}
+
+aside a {
+    color: black;
+}
+
+main {
+    width: 50%;
+    margin: 0 auto;
+}
+
+section {
+    margin-top: 1em;
+    border: 1px solid lightgray;
+    padding: 2em;
+    box-shadow: 2px 0px 10px black;
+}
+
+.publicacion {
+    padding: 0.5em;
+    text-align: center;
+    margin: 2em auto;
+    width: 70%;
+    border: 3px double black;
+}
+
+section a {
+    color: black;
+    text-decoration: none;
+    padding: 1em;
+    transition: 0.4s all;
+}
+
+section a:hover {
+    color: white;
+    text-decoration: underline;
+    padding: 1em;
+    border-radius: 1em;
+    background-color: black;
+    transition: 0.4s all;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    font-weight: bolder;
+    padding: 1em;
+    background-color: black;
+    color: white;
+    border-radius: 0.5em;
+    outline: 0;
+    border: 0;
+}
+
+#cierra {
+    font-weight: bolder;
+    padding: 1em;
+    background-color: red;
+    color: white;
+    border-radius: 1em;
+    outline: 0;
+    border: 0;
+}
+
+#accede {
+    font-weight: bolder;
+    padding: 1em;
+    background-color: lime;
+    color: white;
+    border-radius: 1em;
+    outline: 0;
+    border: 0;
+}
+
+#registra {
+    font-weight: bolder;
+    padding: 1em;
+    background-color: skyblue;
+    color: white;
+    border-radius: 1em;
+    outline: 0;
+    border: 0;
+}
