@@ -47,7 +47,7 @@ if (isset($_REQUEST["accion"])) {
             break;
 
         case "Responder":
-
+            
 
 
 

@@ -24,7 +24,6 @@
             <?php
             $msj = isset($_SESSION["msj"]) ? $_SESSION["msj"] : "";
             echo $msj;
-            unset($_SESSION["msj"]); // Limpiar el mensaje después de mostrarlo
             ?>
         </h4>
 
@@ -36,7 +35,7 @@
                 <br><br>
 
                 <label>Introduce tu contraseña</label>
-                <input type="text" name="pass" required />
+                <input type="password" name="pass" required />
 
                 <br><br>
 

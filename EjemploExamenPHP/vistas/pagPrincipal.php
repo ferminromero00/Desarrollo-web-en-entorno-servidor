@@ -23,8 +23,7 @@
         <h4></h4>
         <h3>Hola <?php echo $_SESSION["usuario"] ?></h3>
         <h3>Cuestionarios</h3>
-        <div>
-        </div>
+        
         <table>
             <?php $ficheros = mostrarFormularios(); ?>
 
