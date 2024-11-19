@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agenda de Tareas{% endblock %}
+
+{% block body  %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ titulo }}! ✅✅✅</h1> 
+    
+    {{ form (formulario) }}
+
+    <br>
+
+    <h2>El titulo de la tarea introducida es: {{ tarea.titulo }}</h2>
+
+    <br>
+
+    <h3>
+        <ul>
+            {% for tarea in tareas %}
+                <li>{{ tarea.titulo}}</li>
+            {% endfor %}
+        </ul>    
+    </h3>
+
+</div>
+
+
+
+{% endblock %}

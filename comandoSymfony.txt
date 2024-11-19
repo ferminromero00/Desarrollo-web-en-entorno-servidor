@@ -1,0 +1,104 @@
+//INSTALACION
+symfony new --webapp TareasSymfony
+symfony new --webapp --no-git TareasSymfony
+symfony new --webapp --no-interaction TareasSymfony 
+symfony new --webapp --no-git --no-interaction TareasSymfony (EL QUE FUNCIONA)
+
+//COMANDO DE AYUDAç
+php bin/console make: (Es la ayuda para ver bastantes comandos)
+
+
+// HACER UNA ENTIDAD
+php bin/console make:entity (Crear una entidad)
+    >TareasSymfony (Poner nombre de la tarea: TareasSymfony)
+    >broadcast identity... (Decir que no)
+    >New property name... (Poner titulo)
+    >Field type (?--> para ver todos. Enter directamente string por default)
+    >Can this field be null? (enter de defaul no)
+    >Add another property? (Enter directamente para decir que no)
+terminado
+SE CREA UN .php EN LA CARPETA ENTITY, EN EL DIRECTORIO DE SRC DEL PROYECTO
+
+
+//HACER UN CONTROLADOR 
+php bin/console make:controller
+    >TareasSymfony (elegir nombre de tu entidad)
+TERMINADO
+SE CREA UN .php EN LA CARPETA CONTROLER, EN EL DIRECTORIO DE SRC DEL PROYECTO
+
+
+
+// INICIAR SERVER
+symfony server:start
+
+
+
+//HACER FORMULARIO
+php bin/console make:form
+    >nombre de clase (nombre de clase)
+    >nombre de la entidad (puede ser el mismo)
+terminado
+
+En el index: 
+-Crear Formulario 
+-Pasar formulario a la pagina 
+-en la pagina mostrar el formulario
+
+
+
+//BASES DE DATOS, USUARIOS....
+
+//CREAR ENTIDAD USUARIO
+php bin/console make:user (Crear usuario)
+    >Usuario (Elegir nombre del usuario)
+    >¿Almacenar datos en una base de datos? (Default yes, le damos a enter)
+    >Cual quieres que sea el identificador? "username, email, uuid" (ponemos username)
+    >Quieres que tu aplicacion tenga contraseña? (default yes, le damos enter)
+terminado
+
+
+Se crea en la carpeta Entity, nombreuser.php
+php bin/console make:entity
+    >Tarea (nombre entidad)
+    >broadcast identity... (Decir que no)
+    >New property name... (Poner titulo)
+    >Field type (?--> para ver todos. Enter directamente string por default)
+    >Can this field be null in database? (enter de defaul no)
+    >Add another property? (poner usuario, nombre del user)
+    >Field type (default string, ? para ver todo) (RELATIONS: poner relation)
+    >Cual es la clase con la que quieres relacionarla (Usuario)
+    >Tipo de relacion (ManyToOne) (<usuario> 1 ---- N <tarea>)
+    >Puede ser nula? (Decir que no)
+    >Quieres añadir una nueva propiedad para acceder al usuario... (decir que si)
+    >New field name (dejar default)
+    >Quieres borrar los objetos huerfanos (default no, decir que no)
+    >Quieres añadir algo mas? (decir que no)
+terminado
+
+// ARCHIVO .ENV
+en .env esta la configuracion de la base de datos
+# DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8.0.32&charset=utf8mb4"
+Descomentamos donde esta MariaBD 
+
+Cambiamos el comando
+# DATABASE_URL="mysql://root:@127.0.0.1:3306/tareas?serverVersion=8.0.32&charset=utf8mb4"
+
+Esto lo dejamos como esta
+MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
+
+//CREAR BASE DE DATOS
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
+Se crea en la carpeta MIGRATIONS
+
+//CREAR REGISTRO
+php bin/console make:registration-form
+    >Quieres añadir una validacion para asegurar que no haya duplicados (si defautl)
+    >email de verificacion? (no)
+    >Quieres autentificar despues de registrarte? (si)
+    >Donde quieres redirigir al usuario? (2)
+    >php-unit test? (no)
+terminado
+

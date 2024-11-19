@@ -1,0 +1,32 @@
+PRIMER APARTADO: 
+-INICIA SESION CON EL NOMBRE DE USUARIO, Y LO GUARDA EN LA SESION
+-CUALQUIER USUARIO APARECERA LOS QUE EXAMENES QUE PUEDES RESPONDER (NO PUEDES, NO FUNCIONA)
+-SI PONES 1234, SE TE VA A UNA VISTA ESPECIAL DONDE PUEDES CREAR PUBLICACIONES (NO FUNCIONA) Y PUEDES VER TODAS LAS PREGUNTAS CREADAS (SI FUNCIONA)
+
+
+-SEGUNDO APARTADO:
+-AL PULSAR EL BOTON DE CERRAR SESION SE DESTRUYE LA SESION Y LAS VARIABLES DE SESION
+
+Tercer apartado:
+
+(1 punto) Responder a cuestionarios: Pulsando el botón para responder el cuestionario, y pasando por el controlador, 
+guardaremos en la sesión el nombre del cuestionario seleccionado, leeremos las preguntas del cuestionario y mostraremos
+ una vista con todas las preguntas junto con un enlace para responder a cada una de las preguntas. En esta vista debe
+  aparecer el nombre del usuario que se ha identificado al principio y el nombre del cuestionario seleccionado. 
+
+  (1 punto) Si eres el usuario "1234" debe aparecer otro enlace para ver todas las respuestas de esa pregunta.
+
+Cuarto apartado: 0,5 puntos
+
+Al pulsar sobre el enlace para responder a la pregunta, mostraremos una vista donde aparezca el nombre del estudiante 
+que se ha identificado, el nombre del cuestionario seleccionado, el título de la pregunta que vamos a responder, 
+un área de texto para la respuesta y un botón para guardarla. 
+
+Octavo apartado: 2 puntos
+
+Ver todas las respuestas: sólo si eres el usuario "1234" te aparecerá el botón para ver todas las respuestas del cuestionario.
+ Pasando por el controlador, leeremos todas las respuestas a cada una de las preguntas del cuestionario e iremos mostrando el 
+  título de la pregunta junto con todas las respuestas a la pregunta. 
+
+
+

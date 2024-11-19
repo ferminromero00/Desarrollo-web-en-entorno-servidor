@@ -1,0 +1,4 @@
+Versión del bloc de notas donde separamos la lógica en ficheros controlador... 
+del código html (la vista) en distintos archivos
+
+En cada página se procesa las peticiones y se muestran los resultados

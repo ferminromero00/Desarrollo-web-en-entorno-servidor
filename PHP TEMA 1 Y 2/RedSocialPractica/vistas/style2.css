@@ -1,0 +1,12 @@
+
+.lateral {
+    background-color: grey;
+    display: inline-block;
+    position: fixed;
+    margin-left: 90%;
+    width: 150px;
+}
+
+.usuarios-barra {
+    text-align: center;
+}
