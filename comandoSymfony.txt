@@ -4,9 +4,18 @@ symfony new --webapp --no-git TareasSymfony
 symfony new --webapp --no-interaction TareasSymfony 
 symfony new --webapp --no-git --no-interaction TareasSymfony (EL QUE FUNCIONA)
 
-//COMANDO DE AYUDAç
+//COMANDO DE AYUDA
 php bin/console make: (Es la ayuda para ver bastantes comandos)
 
+
+//BASE.HTML.TWIG
+Comentar la linea
+
+{% block javascripts %}
+    {# {% block importmap %}{{ importmap('app') }}{% endblock %} #}
+{% endblock %}
+
+--1. 
 
 // HACER UNA ENTIDAD
 php bin/console make:entity (Crear una entidad)
@@ -45,6 +54,7 @@ En el index:
 -en la pagina mostrar el formulario
 
 
+--2. 
 
 //BASES DE DATOS, USUARIOS....
 
@@ -86,12 +96,22 @@ Cambiamos el comando
 Esto lo dejamos como esta
 MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
 
+//ACTIVAMOS APACHE Y MYSQL EN EL TOMCAT
+
 //CREAR BASE DE DATOS
 php bin/console doctrine:database:create
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 
 Se crea en la carpeta MIGRATIONS
+
+//CREAR LOGIN
+php bin/console make:security:form-login
+    >Controler class (default)
+    >Logout (deafult)
+    >phpunit  (default)
+TERMINADO
+
 
 //CREAR REGISTRO
 php bin/console make:registration-form
@@ -100,5 +120,30 @@ php bin/console make:registration-form
     >Quieres autentificar despues de registrarte? (si)
     >Donde quieres redirigir al usuario? (2)
     >php-unit test? (no)
+terminado
+
+localhost/register
+
+//Para quitar la condicion de 6 letras
+En el controlertype: debemos poner la contraseña con 4 caracteres minimos
+
+//Cambiar esta linea, es que del controlador te redireccione a otro controlador
+RegistrationController:   return $this->redirectToRoute('app_login');
+
+//Fichero del Logout
+securityController
+
+//Añadir ruta a otro controlador, como un enlace
+<div>
+    <button>
+        <a href="{{path('app_register')}}" ;>Registrarse</a>
+    </button>
+</div>
+
+//CRUD, menu para hacer tareas
+php bin/console make:crud
+    >Nombre de la entidad para crear el crud (Entity)
+    >nombre controlador (si, default nombre)
+    >Quieres... (no)
 terminado
 
