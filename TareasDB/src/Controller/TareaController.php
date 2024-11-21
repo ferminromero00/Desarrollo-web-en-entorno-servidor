@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/tarea')]
 final class TareaController extends AbstractController
 {
-    #[Route(name: 'app_tarea_index', methods: ['GET'])]
+    #[Route(name: 'app_tarea_index', methods: ['GET', 'POST'])]
     public function index(TareaRepository $tareaRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $tarea = new Tarea();
@@ -22,7 +22,13 @@ final class TareaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Recogemos el usuario de la sesion
+            $usuario = $this->getUser();
+            //Le asigno el usuario que ha iniciado la sesion
+            $tarea -> setUsuario($usuario);
+            //Inserta un registro en la tabla tarea
             $entityManager->persist($tarea);
+            //Guarda los cambios
             $entityManager->flush();
         }
 

@@ -229,11 +229,53 @@ TareaController -> combinamos el index con el newTarea, en el controler modifica
         ]);
     }
 
+--en index.html.twig añadimos esta linea 
+{{ form(form) }}
 
 
+--en form/TareaType
+public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('titulo')
+            ->add('agregar', SubmitType::class, ['label' => 'Añadir Tarea'])
 
+            /* 
+            ->add('Usuario', EntityType::class, [
+                'class' => Usuario::class,
+                'choice_label' => 'username',
+            ])*/
+        ;
+    }
 
+comentamos la linea de usuario, y añadimos un boton para añadir tarea
 
+Dara un error al enviar porque tiene que tener el POST, cambiamos la linea
+
+En TareaController
+#[Route(name: 'app_tarea_index', methods: ['GET', 'POST'])]
+
+Dara un error de sql, ya que pusimos que usuario no puede ser null
+
+en TareaController cogemos el usuario de la sesion y se lo pasamos para que no sea null
+
+public function index(TareaRepository $tareaRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $tarea = new Tarea();
+        $form = $this->createForm(TareaType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //Recogemos el usuario de la sesion
+            $usuario = $this->getUser();
+            //Le asigno el usuario que ha iniciado la sesion
+            $tarea -> setUsuario();
+            //Inserta un registro en la tabla tarea
+            $entityManager->persist($tarea);
+            //Guarda los cambios
+            $entityManager->flush();
+        }
+    }
 
 
 
