@@ -12,23 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/tarea')]
-final class TareaController extends AbstractController
+final class TareaController2 extends AbstractController
 {
     #[Route(name: 'app_tarea_index', methods: ['GET'])]
-    public function index(TareaRepository $tareaRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(TareaRepository $tareaRepository): Response
     {
-        $tarea = new Tarea();
-        $form = $this->createForm(TareaType::class, $tarea);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($tarea);
-            $entityManager->flush();
-        }
-
         return $this->render('tarea/index.html.twig', [
             'tareas' => $tareaRepository->findAll(),
-            'form' => $form
         ]);
     }
 

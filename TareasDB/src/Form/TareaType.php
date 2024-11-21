@@ -17,7 +17,7 @@ class TareaType extends AbstractType
             ->add('titulo')
             ->add('Usuario', EntityType::class, [
                 'class' => Usuario::class,
-                'choice_label' => 'id',
+                'choice_label' => 'username',
             ])
         ;
     }

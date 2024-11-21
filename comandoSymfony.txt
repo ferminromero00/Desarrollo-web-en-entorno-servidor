@@ -147,3 +147,97 @@ php bin/console make:crud
     >Quieres... (no)
 terminado
 
+/login --> pagina de identificacion
+/register --> me lleva a la pagina de registro
+
+
+/ -> Quiero que me lleve a la pagina de login, desde login acceder a registro
+tras identificarme me lleve a /tarea
+
+src/controller/securityController
+
+cambio:     #[Route(path: '/login', name: 'app_login')]
+por esto:     #[Route(path: '/', name: 'app_login')] (SecurityController)
+
+
+
+/-> desde login acceder a registro
+
+index.twig
+
+<div>
+	<button>
+		<a href="{{path('app_register')}}" ;>Registrarse</a>
+	</button>
+</div>
+
+
+/-> cerrar sesion debe estar en la pagina de tareas al cerrar debo volver al login
+
+<div>
+	<button>
+		<a href="{{path('app_logout')}}" ;>Cerrar Sesion</a>
+	</button>
+	</div>
+
+/-> Cambiar config/packages/security.yaml
+
+form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_tarea_index
+
+añadimos esa ultima linea, para cuando logeemos nos redirrecione al crud directamente
+
+
+/-> src/form/TareaType
+
+public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('titulo')
+            ->add('Usuario', EntityType::class, [
+                'class' => Usuario::class,
+                'choice_label' => 'username',
+            ])
+        ;
+    }
+
+cambiamos choise_label, para que en la creacion en vez de un id aparezca el nombre
+
+
+/-> Queremos una vista que aparezca para crear una tarea y justo debajo la lista de las tareas creadas
+
+TareaController -> combinamos el index con el newTarea, en el controler modificamos esto
+
+#[Route(name: 'app_tarea_index', methods: ['GET'])]
+    public function index(TareaRepository $tareaRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $tarea = new Tarea();
+        $form = $this->createForm(TareaType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($tarea);
+            $entityManager->flush();
+        }
+
+        return $this->render('tarea/index.html.twig', [
+            'tareas' => $tareaRepository->findAll(),
+            'form' => $form
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
