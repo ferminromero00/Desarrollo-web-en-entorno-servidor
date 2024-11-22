@@ -40,7 +40,7 @@ php bin/console make:registration-form
 terminado
 
 El formulario de login se enxuentra en la ruta /
---> modificar el security controller -->     #[Route(path: '/', name: 'app_login')]
+--> modificar el security controller --> #[Route(path: '/', name: 'app_login')]
 
 Al formulario de registro se accede a través de un enlace en la página de login.
 -->
@@ -51,15 +51,41 @@ Al formulario de registro se accede a través de un enlace en la página de logi
 Después del registro nos redirigimos a la página de login.
 --> simplemente con tener el / como path del login de hace automaticamente
 
+Crea un controlador de nombre Tareas (aparte del controlador nos crea una página 
+templates/tareas/index.html.twig que será nuestra página de gestión de tareas).
+-->php bin/console make:controller Tareas
+
+Redirige el login con éxito a la página de gestión de tareas.
+-->
+config/packages/security.yml
+form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_tareas
+
+cambiamos el default target por el nombre de la app que se encuentra en el controlador
+
+Muestra el nombre del usuario en la página de gestión de tareas.
+-->
+    <h1>Hola {{ app.user.username }}</h1>
+
+Con esto cogemos automaticamente el nombre de la sesion del usuario, y le saludamos
+
+Muestra un enlace en la página de gestión de tareas para cerrar la sesión.
+-->Añadimos esto al index de las tareas
+<div>
+	<button>
+		<a href="{{path('app_logout')}}" ;>Cerrar Sesion</a>
+	</button>
+</div>
+
+Crea una clase formulario para la entidad Tarea.
+-->
 
 //NO HECHO
 
 
-Crea un controlador de nombre Tareas (aparte del controlador nos crea una página templates/tareas/index.html.twig que será nuestra página de gestión de tareas).
-Redirige el login con éxito a la página de gestión de tareas.
-Muestra el nombre del usuario en la página de gestión de tareas.
-Muestra un enlace en la página de gestión de tareas para cerrar la sesión.
-Crea una clase formulario para la entidad Tarea.
 Añade un botón submit al formulario. 
 Inserta el formulario en la página de tareas.
 Al pulsar "Añadir" debe añadirse la tarea a la base de datos.
