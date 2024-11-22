@@ -62,7 +62,7 @@ En el index:
 php bin/console make:user (Crear usuario)
     >Usuario (Elegir nombre del usuario)
     >¿Almacenar datos en una base de datos? (Default yes, le damos a enter)
-    >Cual quieres que sea el identificador? "username, email, uuid" (ponemos username)
+    >Cual quieres que sea el identificador? "username, email, id" (ponemos username)
     >Quieres que tu aplicacion tenga contraseña? (default yes, le damos enter)
 terminado
 
