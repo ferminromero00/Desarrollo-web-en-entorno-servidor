@@ -5,10 +5,23 @@ Vamos a prescindir de make:crud
 //HECHO
 Crea una aplicación de nombre TareasBD3.
 Crea las entidades: usuario y tareas relacionándolas entre sí.
+--> primero hacemos el user para luego relacionarla automaticamente con tareas
+
 Las tareas tienen una fecha de inicio y otra de fin.
+--> simplemente añadirle mas campos con el tipo datetime
+
 Los usuarios tienen nombre, apellidos y fecha de nacimiento.
+--> lo creamos con make:user, y luego con make:entity, ponemos el mismo nombre que el usuario y lo actualizamos con nuevos campos
+
 Crea la base de datos  Tareas3.
 Migra las entidades.
+--> 
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
+
+
 
 //NO HECHO
 
