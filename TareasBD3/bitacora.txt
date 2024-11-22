@@ -81,7 +81,7 @@ Muestra un enlace en la página de gestión de tareas para cerrar la sesión.
 </div>
 
 Crea una clase formulario para la entidad Tarea.
--->
+-->php bin/console make:form (por hacer)
 
 //NO HECHO
 
