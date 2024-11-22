@@ -1,0 +1,34 @@
+Id tomando nota de cada paso pero tenéis que acabarlo en una hora para poder continuar con los apartados 18 en adelante.
+
+Vamos a prescindir de make:crud
+
+//HECHO
+Crea una aplicación de nombre TareasBD3.
+Crea las entidades: usuario y tareas relacionándolas entre sí.
+Las tareas tienen una fecha de inicio y otra de fin.
+Los usuarios tienen nombre, apellidos y fecha de nacimiento.
+Crea la base de datos  Tareas3.
+Migra las entidades.
+
+//NO HECHO
+
+
+Crea un formulario de login y otro de registro.
+El formulario de login se enxuentra en la ruta /
+Al formulario de registro se accede a través de un enlace en la página de login.
+Después del registro nos redirigimos a la página de login.
+Crea un controlador de nombre Tareas (aparte del controlador nos crea una página templates/tareas/index.html.twig que será nuestra página de gestión de tareas).
+Redirige el login con éxito a la página de gestión de tareas.
+Muestra el nombre del usuario en la página de gestión de tareas.
+Muestra un enlace en la página de gestión de tareas para cerrar la sesión.
+Crea una clase formulario para la entidad Tarea.
+Añade un botón submit al formulario. 
+Inserta el formulario en la página de tareas.
+Al pulsar "Añadir" debe añadirse la tarea a la base de datos.
+Muestra en la página de tareas todas las tareas añadidas.
+Añade a cada tarea un enlace para editar y otro para borrar. 
+Añade un menú a la aplicación con estas opciones:
+Mi cuenta:
+Editar
+Cerrar
+Grupos: permite agrupar usuarios en grupos, de manera que al crear la tarea indiquemos a que grupo va dirigido.
