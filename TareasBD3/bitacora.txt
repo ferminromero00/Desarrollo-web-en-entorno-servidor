@@ -20,16 +20,41 @@ php bin/console doctrine:database:create
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 
+Crea un formulario de login y otro de registro.
+-->
+//CREAR LOGIN
+php bin/console make:security:form-login
+    >Controler class (default)
+    >Logout (deafult)
+    >phpunit  (default)
+TERMINADO
 
+
+//CREAR REGISTRO
+php bin/console make:registration-form
+    >Quieres añadir una validacion para asegurar que no haya duplicados (si defautl)
+    >email de verificacion? (no)
+    >Quieres autentificar despues de registrarte? (si)
+    >Donde quieres redirigir al usuario? (2) //no te sale si tienes ya creado el login
+    >php-unit test? (no)
+terminado
+
+El formulario de login se enxuentra en la ruta /
+--> modificar el security controller -->     #[Route(path: '/', name: 'app_login')]
+
+Al formulario de registro se accede a través de un enlace en la página de login.
+-->
+<button>
+	<a href="{{path('app_register')}}" ;>Registrarse</a>
+</button>
+
+Después del registro nos redirigimos a la página de login.
+--> simplemente con tener el / como path del login de hace automaticamente
 
 
 //NO HECHO
 
 
-Crea un formulario de login y otro de registro.
-El formulario de login se enxuentra en la ruta /
-Al formulario de registro se accede a través de un enlace en la página de login.
-Después del registro nos redirigimos a la página de login.
 Crea un controlador de nombre Tareas (aparte del controlador nos crea una página templates/tareas/index.html.twig que será nuestra página de gestión de tareas).
 Redirige el login con éxito a la página de gestión de tareas.
 Muestra el nombre del usuario en la página de gestión de tareas.
