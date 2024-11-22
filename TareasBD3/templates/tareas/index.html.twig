@@ -17,9 +17,47 @@
 		}
 	</style>
 
+
+	<nav>
+		<ul>
+			<li><a href="{{ path('mi_cuenta_editar') }}">Mi cuenta: Editar</a></li>
+			<li><a href="{{ path('app_logout') }}">Cerrar</a></li>
+		</ul>
+	</nav>
+
+
 	<div class="example-wrapper">
 		<h1>Hola
 			{{ app.user.username }}</h1>
+
+		<h2>Crear Nueva Tarea</h2>
+		{{ form_start(form) }}
+		{{ form_row(form.titulo) }}
+		{{ form_row(form.FechaInicio) }}
+		{{ form_row(form.FechaFin) }}
+		{{ form_row(form.Usuario) }}
+		<button type="submit">Guardar</button>
+		{{ form_end(form) }}
+
+		<h2>Lista de Tareas</h2>
+		<ul>
+			{% for tarea in tareas %}
+				<li>
+					Nombre:
+					{{ tarea.titulo }}
+					<br>
+					Fecha de Inicio:
+					{{ tarea.FechaInicio|date('Y-m-d H:i') }}
+					<br>
+					Fecha de Fin:
+					{{ tarea.FechaFin|date('Y-m-d H:i') }}
+					<br>
+					<a href="{{ path('tareas_edit', {id: tarea.id}) }}">Editar</a>
+					<a href="{{ path('tareas_delete', {id: tarea.id}) }}">Borrar</a>
+				</li>
+				<br>
+			{% endfor %}
+		</ul>
 
 
 		<div>

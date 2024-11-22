@@ -83,16 +83,160 @@ Muestra un enlace en la página de gestión de tareas para cerrar la sesión.
 Crea una clase formulario para la entidad Tarea.
 -->php bin/console make:form (por hacer)
 
-//NO HECHO
+Añadir formulario al index de tareas
 
-
+Primero modificamos el tareasController, creando un formulario para pasarlo al index
 Añade un botón submit al formulario. 
-Inserta el formulario en la página de tareas.
+-->
+-->
+
+ public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $tarea = new Tarea();
+        $form = $this->createForm(TareaFormularioType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($tarea);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('tareas_index');
+        }
+
+        $tareas = $entityManager->getRepository(Tarea::class)->findAll();
+
+        return $this->render('tareas/index.html.twig', [
+            'form' => $form->createView(),
+            'tareas' => $tareas,
+        ]);
+    }
+
+Asi enseñamos el formulario, creandole un boton para mandarlo
+
+<h2>Crear Nueva Tarea</h2>
+		{{ form_start(form) }}
+		{{ form_row(form.titulo) }}
+		{{ form_row(form.FechaInicio) }}
+		{{ form_row(form.FechaFin) }}
+		{{ form_row(form.Usuario) }}
+		<button type="submit" ">Guardar</button>
+		{{ form_end(form) }}
+
 Al pulsar "Añadir" debe añadirse la tarea a la base de datos.
+-->
+Se añade correctamente a la base de datos
+
 Muestra en la página de tareas todas las tareas añadidas.
+-->
+<h2>Lista de Tareas</h2>
+		<ul>
+			{% for tarea in tareas %}
+				<li>Nombre: {{ tarea.titulo }} <br> Fecha de Inicio:
+					{{ tarea.FechaInicio|date('Y-m-d H:i') }} <br> Fecha de Fin:
+					{{ tarea.FechaFin|date('Y-m-d H:i') }}
+				</li>
+				<br>
+			{% endfor %}
+		</ul>
+
 Añade a cada tarea un enlace para editar y otro para borrar. 
-Añade un menú a la aplicación con estas opciones:
-Mi cuenta:
-Editar
-Cerrar
+-->
+
+Este es el index, donde podremos los botones, luego en el controler ponemos la funcionalidad
+
+<h2>Lista de Tareas</h2>
+		<ul>
+			{% for tarea in tareas %}
+				<li>
+					Nombre:
+					{{ tarea.titulo }}
+					<br>
+					Fecha de Inicio:
+					{{ tarea.FechaInicio|date('Y-m-d H:i') }}
+					<br>
+					Fecha de Fin:
+					{{ tarea.FechaFin|date('Y-m-d H:i') }}
+					<br>
+					<a href="{{ path('tareas_edit', {id: tarea.id}) }}">Editar</a>
+					<a href="{{ path('tareas_delete', {id: tarea.id}) }}">Borrar</a>
+				</li>
+				<br>
+			{% endfor %}
+		</ul>
+
+Este es el archivo del controller
+
+<?php
+// src/Controller/TareasController.php
+
+namespace App\Controller;
+
+use App\Entity\Tarea;
+use App\Form\TareaFormularioType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+class TareasController extends AbstractController
+{
+    #[Route('/tareas', name: 'app_tareas')]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $tarea = new Tarea();
+        $form = $this->createForm(TareaFormularioType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($tarea);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_tareas');
+        }
+
+        $tareas = $entityManager->getRepository(Tarea::class)->findAll();
+
+        return $this->render('tareas/index.html.twig', [
+            'form' => $form->createView(),
+            'tareas' => $tareas,
+        ]);
+    }
+
+    #[Route('/tareas/edit/{id}', name: 'tareas_edit')]
+    public function edit(Request $request, Tarea $tarea, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(TareaFormularioType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_tareas');
+        }
+
+        return $this->render('tareas/edit.html.twig', [
+            'form' => $form->createView(),
+            'tarea' => $tarea,
+        ]);
+    }
+
+    #[Route('/tareas/delete/{id}', name: 'tareas_delete')]
+    public function delete(Tarea $tarea, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($tarea);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_tareas');
+    }
+}
+
+Añade un menú a la aplicación con estas opciones: Mi cuenta: Editar Cerrar
 Grupos: permite agrupar usuarios en grupos, de manera que al crear la tarea indiquemos a que grupo va dirigido.
+-->
+
+
+
+
+
+

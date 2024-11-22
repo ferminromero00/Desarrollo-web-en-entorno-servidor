@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block body %}
+    <h1>Editar Tarea</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.titulo) }}
+        {{ form_row(form.FechaInicio) }}
+        {{ form_row(form.FechaFin) }}
+        {{ form_row(form.Usuario) }}
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Mi Cuenta{% endblock %}
+
+{% block body %}
+    <h1>Editar Mi Cuenta</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.nombre) }}
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
+{% endblock %}
