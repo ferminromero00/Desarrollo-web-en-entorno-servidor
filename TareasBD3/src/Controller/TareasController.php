@@ -26,7 +26,7 @@ class TareasController extends AbstractController
 
             return $this->redirectToRoute('app_tareas');
         }
-
+        
         $tareas = $entityManager->getRepository(Tarea::class)->findAll();
 
         return $this->render('tareas/index.html.twig', [

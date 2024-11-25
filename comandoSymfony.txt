@@ -8,6 +8,10 @@ symfony new --webapp --no-git --no-interaction TareasSymfony (EL QUE FUNCIONA)
 php bin/console make: (Es la ayuda para ver bastantes comandos)
 
 
+// INICIAR SERVER
+symfony server:start
+
+
 //BASE.HTML.TWIG
 Comentar la linea
 
@@ -34,12 +38,6 @@ php bin/console make:controller
     >TareasSymfony (elegir nombre de tu entidad)
 TERMINADO
 SE CREA UN .php EN LA CARPETA CONTROLER, EN EL DIRECTORIO DE SRC DEL PROYECTO
-
-
-
-// INICIAR SERVER
-symfony server:start
-
 
 
 //HACER FORMULARIO
