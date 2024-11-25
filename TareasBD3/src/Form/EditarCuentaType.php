@@ -14,7 +14,7 @@ class EditarCuentaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre', TextType::class, [
+            ->add('username', TextType::class, [
                 'label' => 'Nombre',
             ]);
     }
