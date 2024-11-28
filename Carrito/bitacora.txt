@@ -1,0 +1,69 @@
+-1 Crear Usuario
+php bin/console make:user
+----Cliente
+----yes
+----username
+----yes
+
+-2 Crear Entidad Pedido
+php bin/console make:entity
+----Pedido
+----no
+----fecha
+----date
+----no
+----relation
+----Cliente
+----ManyToOne
+----enter
+----enter
+----enter
+----enter
+
+-3 Añadir articulo
+php bin/console make:entity
+----Articulo
+----enter
+----nombre
+----enter
+----enter
+----enter
+----precio
+----float
+----enter
+----enter
+
+-4 actualizar user
+php bin/console make:entity
+----Cliente
+----administrador
+----boolean
+----enter
+----nombre_apellidos
+----enter
+----enter
+----enter
+
+-5 Crear entidad detalles pedidos
+php bin/console make:entity
+----DetallePedido
+----enter
+----pedido
+----relation
+----Pedido
+----ManyToOne
+----
+
+
+-6 Migracion
+modificamos el .env
+Cambiamos el comando
+# DATABASE_URL="mysql://root:@127.0.0.1:3306/Carrito?serverVersion=8.0.32&charset=utf8mb4"
+
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
+
+
+
