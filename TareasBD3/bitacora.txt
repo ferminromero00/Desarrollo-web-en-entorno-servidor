@@ -297,7 +297,60 @@ en el controler en el function index, añadimos esa linea para pasar el id autom
 
 
 Añade un menú a la aplicación con estas opciones: Mi cuenta: Editar Cerrar
-Grupos: permite agrupar usuarios en grupos, de manera que al crear la tarea indiquemos a que grupo va dirigido.
+
+Hacemos un EditarCuentaType
+
+
+<?php
+// src/Form/EditarCuentaType.php
+
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\Usuario;
+
+class EditarCuentaType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('username', TextType::class, [
+                'label' => 'Nombre',
+            ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Usuario::class,
+        ]);
+    }
+}
+
+y luego un edit.html.twig
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block body %}
+    <h1>Editar Tarea</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.titulo) }}
+        {{ form_row(form.FechaInicio) }}
+        {{ form_row(form.FechaFin) }}
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
 -->
 
 
