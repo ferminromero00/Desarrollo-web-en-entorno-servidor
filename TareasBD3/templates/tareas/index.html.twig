@@ -35,13 +35,12 @@
 		{{ form_row(form.titulo) }}
 		{{ form_row(form.FechaInicio) }}
 		{{ form_row(form.FechaFin) }}
-		{{ form_row(form.Usuario) }}
 		<button type="submit">Guardar</button>
 		{{ form_end(form) }}
 
 		<h2>Lista de Tareas</h2>
 		<ul>
-			{% for tarea in tareas %}
+				{% for tarea in app.user.Tareas %}
 				<li>
 					Nombre:
 					{{ tarea.titulo }}

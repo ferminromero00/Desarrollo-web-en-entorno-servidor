@@ -21,17 +21,17 @@ class TareasController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tarea->setUsuario($this->getUser()); //pasamos el id del usuario directamente
             $entityManager->persist($tarea);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_tareas');
         }
-        
-        $tareas = $entityManager->getRepository(Tarea::class)->findAll();
+
+        //$tareas = $entityManager->getRepository(Tarea::class)->findAll();
 
         return $this->render('tareas/index.html.twig', [
             'form' => $form->createView(),
-            'tareas' => $tareas,
+            //'tareas' => $tareas,
         ]);
     }
 

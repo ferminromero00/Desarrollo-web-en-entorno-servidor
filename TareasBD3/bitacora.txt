@@ -266,8 +266,33 @@ y con esto en index de tareas hacemos este for
 				<br>
 			{% endfor %}
 
+en tareasFormularioType
+
+ $builder
+            ->add('titulo')
+            ->add('FechaInicio', null, [
+                'widget' => 'single_text',
+            ])
+            ->add('FechaFin', null, [
+                'widget' => 'single_text',
+            ])
+            // ->add('Usuario', EntityType::class, [
+            //     'class' => Usuario::class,
+            //     'choice_label' => 'id',
+            // ])
+        ;
+
+comentamos el campo del id
 
 
+en el controler en el function index, añadimos esa linea para pasar el id automaticamente
+
+ if ($form->isSubmitted() && $form->isValid()) {
+            $tarea->setUsuario($this->getUser()); //pasamos el id del usuario directamente
+            $entityManager->persist($tarea);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_tareas');
+        }
 
 
 

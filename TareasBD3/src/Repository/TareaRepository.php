@@ -16,28 +16,28 @@ class TareaRepository extends ServiceEntityRepository
         parent::__construct($registry, Tarea::class);
     }
 
-    //    /**
-    //     * @return Tarea[] Returns an array of Tarea objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        /**
+         * @return Tarea[] Returns an array of Tarea objects
+         */
+        public function findByExampleField($value): array
+        {
+            return $this->createQueryBuilder('t')
+                ->andWhere('t.exampleField = :val')
+                ->setParameter('val', $value)
+                ->orderBy('t.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
-    //    public function findOneBySomeField($value): ?Tarea
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        public function findOneBySomeField($value): ?Tarea
+        {
+            return $this->createQueryBuilder('t')
+                ->andWhere('t.exampleField = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        }
 }

@@ -21,10 +21,10 @@ class TareaFormularioType extends AbstractType
             ->add('FechaFin', null, [
                 'widget' => 'single_text',
             ])
-            ->add('Usuario', EntityType::class, [
-                'class' => Usuario::class,
-                'choice_label' => 'id',
-            ])
+            // ->add('Usuario', EntityType::class, [
+            //     'class' => Usuario::class,
+            //     'choice_label' => 'id',
+            // ])
         ;
     }
 
