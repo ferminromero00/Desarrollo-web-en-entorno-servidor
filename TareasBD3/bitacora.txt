@@ -231,6 +231,46 @@ class TareasController extends AbstractController
     }
 }
 
+
+Se ven las tareas de cada usuario, se diferencias no se ven todas
+-->
+Descomentamos TareasRepository
+
+Comentamos estas lineas del controler, no le pasamos las tareas lo hace el solo, y pasa solo las del usuario
+
+//$tareas = $entityManager->getRepository(Tarea::class)->findAll();
+
+        //$tareas = $tr->findByExampleField($this->getUser()->getId());
+
+        return $this->render('tareas/index.html.twig', [
+            'form' => $form->createView(),
+            //'tareas' => $tareas,
+        ]);
+
+y con esto en index de tareas hacemos este for
+
+{% for tarea in app.user.Tareas %}
+				<li>
+					Nombre:
+					{{ tarea.titulo }}
+					<br>
+					Fecha de Inicio:
+					{{ tarea.FechaInicio|date('Y-m-d H:i') }}
+					<br>
+					Fecha de Fin:
+					{{ tarea.FechaFin|date('Y-m-d H:i') }}
+					<br>
+					<a href="{{ path('tareas_edit', {id: tarea.id}) }}">Editar</a>
+					<a href="{{ path('tareas_delete', {id: tarea.id}) }}">Borrar</a>
+				</li>
+				<br>
+			{% endfor %}
+
+
+
+
+
+
 Añade un menú a la aplicación con estas opciones: Mi cuenta: Editar Cerrar
 Grupos: permite agrupar usuarios en grupos, de manera que al crear la tarea indiquemos a que grupo va dirigido.
 -->
