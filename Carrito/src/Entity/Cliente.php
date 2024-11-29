@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\ClienteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ClienteRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class Cliente implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,6 +34,23 @@ class Cliente implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Pedido>
+     */
+    #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente')]
+    private Collection $pedidos;
+
+    #[ORM\Column]
+    private ?bool $administrador = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nombre_apellidos = null;
+
+    public function __construct()
+    {
+        $this->pedidos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +125,59 @@ class Cliente implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Pedido>
+     */
+    public function getPedidos(): Collection
+    {
+        return $this->pedidos;
+    }
+
+    public function addPedido(Pedido $pedido): static
+    {
+        if (!$this->pedidos->contains($pedido)) {
+            $this->pedidos->add($pedido);
+            $pedido->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedido(Pedido $pedido): static
+    {
+        if ($this->pedidos->removeElement($pedido)) {
+            // set the owning side to null (unless already changed)
+            if ($pedido->getCliente() === $this) {
+                $pedido->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isAdministrador(): ?bool
+    {
+        return $this->administrador;
+    }
+
+    public function setAdministrador(bool $administrador): static
+    {
+        $this->administrador = $administrador;
+
+        return $this;
+    }
+
+    public function getNombreApellidos(): ?string
+    {
+        return $this->nombre_apellidos;
+    }
+
+    public function setNombreApellidos(string $nombre_apellidos): static
+    {
+        $this->nombre_apellidos = $nombre_apellidos;
+
+        return $this;
     }
 }
