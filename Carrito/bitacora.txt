@@ -120,8 +120,6 @@ Modificamos el RegistratonFormType
         ;
     }
 
-security yaml
-
 
 
 php bin/console make:controller
