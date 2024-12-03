@@ -66,7 +66,7 @@ class PedidosController extends AbstractController
             $em->persist($lineaPedido);
             $em->flush();
 
-            return $this->redirectToRoute('app_nuevo_pedido');
+            return $this->redirectToRoute('app_pedidos');
 
         }
 

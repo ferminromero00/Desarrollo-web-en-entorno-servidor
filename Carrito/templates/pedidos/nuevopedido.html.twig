@@ -27,9 +27,18 @@
 
 		{{ form(form) }}
 
+			<br><br>
+
+
+			<div>
+				<button>
+					<a href="{{path('app_pedidos')}}" ;>Ver lista de tus pedidos</a>
+				</button>
+			</div>
 			<div>
 				<button>
 					<a href="{{path('app_logout')}}" ;>Salir</a>
 				</button>
 			</div>
+
 		{% endblock %}
