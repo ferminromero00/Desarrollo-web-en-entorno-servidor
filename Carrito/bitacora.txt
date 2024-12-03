@@ -92,6 +92,7 @@ php bin/console make:registration-form
 ----enter
 
 
+
 Modificamos el RegistratonFormType
 
  public function buildForm(FormBuilderInterface $builder, array $options): void
