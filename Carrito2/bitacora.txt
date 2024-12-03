@@ -22,6 +22,7 @@ php bin/console make:entity
 ----enter
 ----enter
 ----enter
+----enter
 
 
 Crear la entidad Articulo
@@ -50,9 +51,8 @@ php bin/console make:entity
 ----date
 ----no
 ----cliente
-----relation
-----Cliente
 ----ManyToOne
+----Cliente
 ----enter
 ----enter
 ----enter
@@ -62,7 +62,6 @@ Crear LineasPedido, con una coleccion de lineas de pedido de Pedido(1) y LineaPe
 y Articulo(1) y LineaPedido(N)
 
 Líneas de pedido: id, articulo, cantidad, pedido
-
 
 php bin/console make:entity
 ----lineaPedido
