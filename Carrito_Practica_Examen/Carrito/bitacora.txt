@@ -148,104 +148,119 @@ form_login:
 ->add('plainPassword', PasswordType::class)
 
 
+-- CREAR TABLA DE PEDIDOS DEL USUARIO
+
+Esto lo podemos hacer gracias a que en la ENTIDAD CLIENTE, estan relacionados los Pedidos
+asi que podemos cogerlos directamente con app.user.Pedidos
+
+Esto es, cogemos Pedidos y funcionaria: (public function getPedidos(): Collection)
+
+<table>
+    {% for pedido in app.user.Pedidos %}
+	    <tr>
+			<td>{{ pedido.id }}</td>
+			<td>{{ pedido.fecha|date('Y-m-d H:i:s ') }}</td>
+	    </tr>
+	{% endfor %}
+</table>
 
 
-Para llamar a un dato del cliente, hay que asegurarse como se llama en la entidad
-Hacemos la tabla de pedidos
+-- FORMATO FECHAS
 
-	<div class="example-wrapper">
-		<h1>Hola
-			{{ app.user.NombreApellidos }}! ✅</h1>
-
-		<h1>{{ titulo }}</h1>
-
-		<table>
-			{% for pedido in app.user.Pedidos %}
-				<tr>
-					<td>{{ pedido.id }}</td>
-					<td>{{ pedido.fecha }}</td>
-				</tr>
-			{% endfor %}
-		</table>
-
-			
-		
-
-
-	</div>
-{% endblock %}
-
-
-Cambiar tipo de dato a date, dandole un formato
 <td>{{ pedido.fecha|date('Y-m-d H:i:s ') }}</td>
+
+
+-- AÑADIR ESTILOS CON BOOTSTRAP
 
 Bootstrap, esto va en twig.base del proyecto
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-php bin/console make:form
----FormPedido
----Pedido
+clase tabla: class="table table-striped table-hover"
 
- public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('fecha', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('agregar', SubmitType::class,  ['label' => "Añadir pedido"])
-            // ->add('cliente', EntityType::class, [
-            //     'class' => Cliente::class,
-            //     'choice_label' => 'id',
-            // ])
-        ;
-    }
+-- PASAR EL ID EN LA DATABASE_URL
+{{ path('app_ver_pedidos', {'id': pedido.id}) }}
+
+
+-- HACER UN RENDER DE UNA PAGINA HTML, AL PULSAR
+return $this->render('ruta/pagina.html.twig' , ['parametro' => $parametro,]);
+
+-- SI QUEREMOS AÑADIR MAS PEDIDOS, DEBEMOS HACER UN FORM PARA ESO, ASI QUE TENEMOS QUE CREARLO
 
 php bin/console make:form
----FormLineaPedido
----LineaPedido
+---FormPedido (nombre del form)
+---Pedido (nombre de la entidad a la que se relaciona)
 
- $builder
-            ->add('cantidad')
-            // ->add('pedido', EntityType::class, [
-            //     'class' => Pedido::class,
-            //     'choice_label' => 'id',
-            // ])
-            ->add('articulo', EntityType::class, [
-                'class' => Articulo::class,
-                'choice_label' => 'nombre',
-            ])
-            ->add('agregar', SubmitType::class, ['label' => 'Añadir linea de articulos'])
-        ;
-    }
+$builder
+    ->add('fecha', null, [
+        'widget' => 'single_text',
+    ])
+    ->add('agregar', SubmitType::class,  ['label' => "Añadir pedido"])
+    ;
 
-crear nuevopedido.html.twig a mano mismo
-crear addLinea.html.twig a mano mismo
+modificamos un poco el builder del formulario
 
 
-Pedidos Controller
 #[Route('/pedidos/nuevo', name: 'app_nuevo_pedido')]
-    public function nuevoPedido(Request $request, EntityManagerInterface $em): Response
+    public function pedidoNuevo(Request $request, EntityManagerInterface $em): Response
     {
+        //CREAR NUEVO PEDIDO
         $pedido = new Pedido();
+        //CREAMOS EL FORMULARIO CON EL COMANDO QUE HICIMOS ANTES
         $form = $this->createForm(FormPedidoType::class, $pedido);
+        //MANEJAMOS LA RESPUESTA DEL FORMULARIO
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // EN EL BUILDER QUITAMOS EL ID YA QUE LO PONDREMOS AUTOMATICAMENTE AQUI
             $pedido->setCliente($this->getUser());
             // Grabamos el pedido
             $em->persist($pedido);
+            //LO SUBIMOS A LA BASE DE DATOS
             $em->flush();
 
             // Redirigimos a la página donde añadir las líneas
             return $this->redirectToRoute('app_add_linea_pedido', ['id' => $pedido->getId()]);
         }
 
+        //ESTA ES LA PAGINA QUE PINTAMOS PARA HACER EL FORMULARIOM, LE PASAMOS EL FORM
         return $this->render("pedidos/nuevopedido.html.twig", [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
+
+EN EL nuevopedido.html.twig SOLO TENEMOS QUE PONER ESTO   {{ form(form) }}
+Y SE PINTA EL FORMULARIO ENTERO, YA LO DEMAS QUE QUERAMOS AÑADIR...
+
+
+-- DESPUES DE CREAR EL PEDIDO AÑADIMOS SU CONTENIDOR CON LA OTRA ENTIDAD ASI
+
+Creamos otro form para lineapedido
+
+php bin/console make:form
+---FormLineaPedido
+---LineaPedido
+
+// Campo para la cantidad
+->add('cantidad')
+// Campo para seleccionar un artículo
+->add('articulo', EntityType::class, [
+    'class' => Articulo::class, // Clase de la entidad Articulo
+    'choice_label' => 'nombre', // Propiedad de la entidad que se mostrará en las opciones
+])
+// Botón de envío del formulario
+->add('agregar', SubmitType::class, ['label' => 'Añadir linea de articulos']);
+
+
+-- AHORA VAMOS AÑADIR EL CONTENIDO AL PEDIDO, CON LOS ARTICULOS QUE HAYA DISPONIBLES
+
+
+
+
+
+
+
 
     #[Route('/pedidos/{id}/add-linea', name: 'app_add_linea_pedido')]
     public function addLineaPedido(Pedido $pedido, Request $request, EntityManagerInterface $em): Response
