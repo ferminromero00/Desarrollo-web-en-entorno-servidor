@@ -27,19 +27,22 @@
 			<tr>
 				<th>#</th>
 				<th>Alojamiento</th>
+				<th></th>
 			</tr>
 
 			{% for alojamiento in app.user.Alojamientos %}
 				<tr>
 					<td>{{ alojamiento.id }}</td>
 					<td>{{ alojamiento.descripcion }}</td>
+					<td>
+						<a href="{{ path('app_cambiar_nombre_alojamiento', { 'id': alojamiento.id })}}">Cambiar Nombre</a>
+					</td>
 				</tr>
 			{% endfor %}
 		</table>
-		<button><a href=" {{ path('app_mis_alojamientos_alquilados')}} ">Ver Alquilados</a></button>
-		
-
-
+		<button>
+			<a href=" {{ path('app_mis_alojamientos_alquilados')}} ">Ver Alquilados</a>
+		</button>
 
 
 	</div>

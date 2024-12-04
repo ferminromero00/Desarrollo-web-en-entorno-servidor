@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Alojamiento;
 use App\Entity\Alquiler;
+use App\Form\EditarCuentaType;
+use App\Form\EditarNombreType;
 use App\Form\HacerAlquilerType;
 use App\Repository\AlojamientoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +80,23 @@ class ArbnbController extends AbstractController
     }
 
 
+    #[Route('/arbnb/cambiarNombre/{id}', name: 'app_cambiar_nombre_alojamiento')]
+    public function cambiarNombre(Request $request, EntityManagerInterface $e, Alojamiento $nombre): Response
+    {
+        $form = $this->createForm(EditarNombreType::class, $nombre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $e->flush();
+            return $this->redirectToRoute('app_mis_alojamientos');
+        }
 
 
+        return $this->render('arbnb/cambiarNombre.html.twig', [
+            'titulo' => 'Cambiar nombre Alojamiento: ',
+            'form' => $form,
+            'nombre' => $nombre
+        ]);
+    }
 
 }
