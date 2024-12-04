@@ -1,0 +1,51 @@
+// EN ESTE CASO SI HAY QUE CREAR UN FORM YA QUE EL USUARIO TENDRA QUE MODIFICARLO A MANO, EN FORMTYPE TENDREMOS QUE QUITAR LO QUE NO NOS
+INTERESE Y AÑADIR UN BOTON DE SUBMIT, HACEMOS UN REDIRECT DONDE QUERAMOS DESPUES DE ENVIARLO
+
+
+#[Route('/arbnb/cambiarNombre/{id}', name: 'app_cambiar_nombre_alojamiento')]
+    public function cambiarNombre(Request $request, EntityManagerInterface $e, Alojamiento $nombre): Response
+    {
+        $form = $this->createForm(EditarNombreType::class, $nombre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $e->flush();
+            return $this->redirectToRoute('app_mis_alojamientos');
+        }
+
+
+        return $this->render('arbnb/cambiarNombre.html.twig', [
+            'titulo' => 'Cambiar nombre Alojamiento: ',
+            'form' => $form,
+            'nombre' => $nombre
+        ]);
+    }
+
+// EN EL HTML PARA QUE SE VEA EL FORMULARIO SIMPLEMENTE PONEMOS ESTO
+
+{{ form_start(form) }} {{ form_widget(form) }}{{ form_end(form) }}
+
+
+// EN EL FORM TYPE
+
+$builder
+            ->add('descripcion')
+            ->add('Cambiar', SubmitType::class, [
+                "label" => "Cambiar nombre Propiedad:"
+            ])
+            // ->add('propietario', EntityType::class, [
+            //     'class' => Usuario::class,
+            //     'choice_label' => 'id',
+            // ])
+        ;
+
+
+
+
+
+
+
+
+
+
+

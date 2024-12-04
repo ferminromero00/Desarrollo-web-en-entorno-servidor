@@ -1,0 +1,21 @@
+// LOOP.INDEX ES SIMPLEMENTE UN CONTADOR, Y EN EL FOR RECOGEMOS LA ENTIDAD ALQUILERES, DONDE LUEGO DENTRO
+RECOGEMOS DATOS DE OTRA ENTIDAD Alojamiento DONDE SE CORRELACIONAN
+
+
+<table class="table table-striped table-hover">
+		<tr>
+			<th>#</th>
+			<th>Descripcion</th>
+			<td></td>
+		</tr>
+		{% for alquiler in app.user.Alquileres %}
+			<tr>
+				<td>
+					{{ loop.index }}
+				</td>
+				<td>
+					{{ alquiler.Alojamiento.Descripcion}}
+				</td>
+			</tr>
+	{% endfor %}
+</table>

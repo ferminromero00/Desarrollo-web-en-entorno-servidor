@@ -1,0 +1,29 @@
+// CON GET REPOSITORY RECOGEMOS TODOS LOS DATOS DE ESA ENTIDAD Y SE LA PASAMOS AL HTML, EN EL HTML YA TRABAJAMOS CON SUS
+CAMPOS DE DATOS SEGUN LO QUE QUERAMOS HACER
+
+public function alquilar(EntityManagerInterface $e): Response
+{
+    $alojamientos = $e->getRepository(Alojamiento::class)->findAll();
+
+    return $this->render('arbnb/alquilar.html.twig', [
+        'titulo' => '¿Quieres alquilar?: ',
+        'alojamientos' => $alojamientos,
+    ]);
+}
+
+<table class="table table-striped table-hover mt-3">
+	<tr>
+		<th>#</th>
+		<th>Descripcion</th>
+		<th>Alquilar</th>
+	</tr>
+	{% for e in alojamientos %}
+		<tr>
+			<td>{{e.id}}</td>
+			<td>{{e.descripcion}}</td>
+			<td>
+				<a href=" {{ path('app_añadir_alquileres' , { 'id': e.id }) }} ">Alquilar</a>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
