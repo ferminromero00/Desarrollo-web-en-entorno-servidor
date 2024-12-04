@@ -69,7 +69,7 @@ class PedidosController extends AbstractController
 
         return $this->render("pedidos/addLinea.html.twig", [
             'pedido' => $pedido,
-            'form' => $formLineaPedido->createView(),
+            'form' => $formLineaPedido,
         ]);
     }
 

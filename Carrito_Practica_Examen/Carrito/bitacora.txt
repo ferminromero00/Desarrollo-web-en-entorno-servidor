@@ -256,12 +256,6 @@ php bin/console make:form
 -- AHORA VAMOS AÑADIR EL CONTENIDO AL PEDIDO, CON LOS ARTICULOS QUE HAYA DISPONIBLES
 
 
-
-
-
-
-
-
     #[Route('/pedidos/{id}/add-linea', name: 'app_add_linea_pedido')]
     public function addLineaPedido(Pedido $pedido, Request $request, EntityManagerInterface $em): Response
     {
