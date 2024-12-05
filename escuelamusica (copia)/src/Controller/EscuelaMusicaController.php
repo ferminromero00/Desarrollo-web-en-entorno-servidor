@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\FerminAnadirInstrumentoMatriculaType;
+use App\Form\FerminAñadirInstrumentoType;
 use App\Form\FerminNuevoInstrumentoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,20 +31,38 @@ class EscuelaMusicaController extends AbstractController
     }
 
     #[Route('/escuela/musica/profesor', name: 'app_profesor')]
-    public function profesor(Request $request, EntityManagerInterface $em): Response
+    public function profesor(Request $request, EntityManagerInterface $e): Response
     {
+
+        $instrumento = new Instrumento();
+        $form = $this->createForm(FerminNuevoInstrumentoType::class, $instrumento);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $instrumento->setProfesor($this->getUser());
+            $e->persist($instrumento);
+            $e->flush();
+            return $this->redirectToRoute('app_profesor');
+        }
+
 
         return $this->render('escuelamusica/FerminListaProfesor.html.twig', [
             'titulo' => 'Listado de tus instrumentos: ',
-
+            'form' => $form
         ]);
     }
 
     #[Route('/escuela/musica/alumno', name: 'app_alumno')]
-    public function alumno(Request $request, EntityManagerInterface $em): Response
+    public function alumno(Request $request, EntityManagerInterface $e): Response
     {
-        // Por poner algo
-        return $this->render('escuelamusica/index.html.twig');
+
+        $instrumento = $e->getRepository(Instrumento::class)->findAll();
+
+
+        return $this->render('escuelamusica/listaFerminRomero.html.twig', [
+            'titulo' => 'Listado de tus matriculas: ',
+            'instrumento' => $instrumento,
+        ]);
     }
 
 
@@ -58,14 +78,11 @@ class EscuelaMusicaController extends AbstractController
 
 
 
-
         return $this->render('escuelamusica/FerminVerAlumnos.html.twig', [
             'titulo' => 'Ver alumnos escuela: ',
             'alumnos' => $alums
         ]);
     }
-
-
 
 
 
@@ -86,6 +103,29 @@ class EscuelaMusicaController extends AbstractController
             'instrumento' => $instrumento,
         ]);
     }
+
+    #[Route('/escuela/musica/listado1', name: 'app_instrumentos1')]
+    public function listado1(EntityManagerInterface $e, Request $request): Response
+    {
+        $instrumento = new Instrumento();
+        $form = $this->createForm(FerminNuevoInstrumentoType::class, $instrumento);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $e->persist($instrumento);
+            $e->flush();
+            return $this->redirectToRoute('app_instrumentos1');
+        }
+
+        $instrumento = $e->getRepository(Instrumento::class)->findAll();
+
+        return $this->render('escuelamusica/FerminVerTodosIntru.html.twig', [
+            'titulo' => 'Listado de tus matriculas: ',
+            'formulario' => $form,
+            'instrumento' => $instrumento,
+        ]);
+    }
+
 
 
     #[Route('/escuela/musica/matriculados/{id}', name: 'app_ver_matriculados')]
@@ -113,7 +153,7 @@ class EscuelaMusicaController extends AbstractController
             $instrumento->setProfesor($this->getUser());
             $e->persist($instrumento);
             $e->flush();
-            return $this->redirectToRoute('app_profesor');
+            return $this->redirectToRoute('app_instrumentos1');
         }
 
 
@@ -125,21 +165,54 @@ class EscuelaMusicaController extends AbstractController
 
 
     #[Route('/escuela/musica/verMatricula/{id}', name: 'app_ver_matricula_alumno')]
-    public function instrumentosMatriculado(EntityManagerInterface $e, int $id): Response
+    public function instrumentosMatriculado(EntityManagerInterface $e, int $id, Request $request): Response
     {
         $user = $e->getRepository(Usuario::class)->find($id);
         $matriculado = $user->getMatricula();
 
+        $alumno = $e->getRepository(Usuario::class)->find($id);
 
+
+        $matricula = new Matricula();
+        $form = $this->createForm(FerminAnadirInstrumentoMatriculaType::class, $matricula);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $matricula->setAlumno($alumno);
+            $e->persist($matricula);
+            $e->flush();
+            return $this->redirectToRoute('app_alumnos');
+        }
 
         return $this->render('escuelamusica/FerminverMatricula.html.twig', [
             'titulo' => 'Instrumentos matriculados',
-            'ins' => $matriculado
+            'ins' => $matriculado,
+            'form' => $form
         ]);
     }
 
+    #[Route('/escuela/musica/AñadirIntrumento/{id}', name: 'app_añadir_instrumento_matriculado')]
+    public function añadirIntrumentoMatricula(Request $request, EntityManagerInterface $e, int $id): Response
+    {
+        $alumno = $e->getRepository(Usuario::class)->find($id);
 
 
+        $matricula = new Matricula();
+        $form = $this->createForm(FerminAnadirInstrumentoMatriculaType::class, $matricula);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $matricula->setAlumno($alumno);
+            $e->persist($matricula);
+            $e->flush();
+            return $this->redirectToRoute('app_profesor');
+        }
+
+        return $this->render('escuelamusica/FerminAñadirIntrumento.html.twig', [
+            'titulo' => 'Añadir instrumento',
+            'form' => $form
+        ]);
+    }
 
 
 

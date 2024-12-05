@@ -10,7 +10,7 @@
 						<a class="nav-link" href="{{ path('app_alumnos') }}">Alumnado</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_instrumentos') }}">Instrumentos</a>
+						<a class="nav-link" href="{{ path('app_instrumentos1') }}">Instrumentos</a>
 					</li>
 				{% endif %}
 				<li class="nav-item">
@@ -22,9 +22,6 @@
 			{% if app.user %}
 
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_instrumentos') }}">Listado Matriculados</a>
-					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="">{{ app.user.NombreApellidos }}</a>
 					</li>

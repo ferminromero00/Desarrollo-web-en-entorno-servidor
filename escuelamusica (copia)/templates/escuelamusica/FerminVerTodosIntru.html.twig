@@ -19,26 +19,26 @@
 
 	<div class="container">
 
-		<h4>{{ titulo }}{{ app.user.username }}</h4>
+		<h4>{{ titulo }}</h4>
 
+		{{ form_start(formulario) }}
+		{{ form_widget(formulario) }}{{ form_end(formulario) }}
 
-{{ form_start(form) }}{{ form_widget(form) }}{{ form_end(form) }}
-
-	<br>br
+		<br><br><br>
 
 		<table class="table table-striped table-hover">
 			<tr>
-				<th>#</th>
-				<th>Nombre Instrumento</th>
-				<th>Ver alumando Matriculado</th>
+				<th>ID</th>
+				<th>Instrumento con el que se da clase</th>
+				<th>Profesor que imparte</th>
+				<th>Ver Alumnos Matriculados</th>
 			</tr>
-			{% for e in app.user.Instrumentos %}
+			{% for e in instrumento %}
 				<tr>
+					<td>{{ e.id}}</td>
+					<td>{{ e.nombre }}</td>
 					<td>
-						{{e.id}}
-					</td>
-					<td>
-						{{ e.nombre }}
+						{{ e.profesor.username }}
 					</td>
 					<td>
 						<a href=" {{ path('app_ver_matriculados' , { 'id': e.id }) }} ">Ver</a>
@@ -51,7 +51,6 @@
 
 	</tr>
 </table>
-
-
-
-</div>{% endblock %}
+<button>
+	<a href=" {{ path('app_añadir_instrumento') }} ">Añadir Instrumento</a>
+</button></div>{% endblock %}

@@ -1,0 +1,64 @@
+---1. Si quien se identifica es un alumno:
+
+(0,75 puntos) Puede ver un listado de los instrumentos en los que está matriculado junto con el profesor que lo imparte.
+
+FUNCIONA CORRECTAMENTE
+
+
+---2. Si quien se identifica es un profesor:
+---2.1.- El menú "Mis clases":
+
+---2.1.1.- (0,75 puntos) Veremos en una tabla los instrumentos que imparte el profesor que se ha identificado junto con 
+un enlace "Ver alumnado matriculado". Es la página principal que vemos justo después de la identificación.
+
+Se ve la tabla de los intrumentos que imparte el profesor correctamente, pero el formulario no funciona como pide, se le
+pueden añadir instrumentos y automaticamente se lo asigna y no ya existentes, esa parte no existe
+
+
+
+---2.1.2 - (0,75 puntos) Al pinchar sobre el enlace podremos ver en otra página a los alumnos matriculados en el instrumento que imparte.
+
+Esto si funciona correctamente
+
+
+---2.1.3.- (1,5 puntos) Veremos un formulario donde seleccionar un instrumento para añadirse clases de ese instrumento seleccionado. 
+Al asignarse un nuevo instrumento éste debe aparecer en la tabla. 
+
+Esto no funciona
+
+
+---2.2..- En el menú "Alumnado":
+---2.2.1.- (0,75 puntos) Veremos a todos los alumnos de la escuela junto con un enlace "Ver matrícula del alumno/a".
+
+Esto funciona correctamente
+
+---2.2.2.- (0,75 puntos) Al pinchar sobre el enlace que conduce a otra página donde se muestran los instrumentos en los 
+que está matriculado el alumnado.
+
+Funciona correctamente
+
+---2.2.3.- (1,5 puntos) En esa nueva página tenemos de nuevo un formulario desde donde seleccionar un instrumento para 
+matricular al alumno/a en ese instrumento. Al matricular a una alumno en un instrumento este debe aparecer en la tabla. 
+
+Esto en principio funciona todo, existe el formulario y cuando le das a añadir te lo crea, pero te redirecciona a la pagina anterior
+porque no me salio como hacerlo en la misma, pero el formulario funciona correctamente como pides
+
+
+
+---2.3.- En el menú "Instrumentos":
+---2.3.1.- (0,75 puntos) Veremos todo los instrumentos de los que se imparte clase en la escuela. 
+
+Esto funciona correctamente
+
+---2.3.2.- (1 punto) Dispondremos de un formulario al principio de la página para crear nuevos instrumentos.
+
+Esto funciona correctamente
+
+---2.3.3.- (0,75 puntos) Junto con cada instrumento tenemos un  enlace "Alumnado matriculado en el instrumento" que nos
+ conduce a una nueva página.
+
+Esto funciona correctamente
+
+---2.3.3.4.- (0,75 puntos) En esta nueva página mostraremos en una tabla todos los alumnos matriculados en ese instrumento.
+
+Esto funciona correctamente
