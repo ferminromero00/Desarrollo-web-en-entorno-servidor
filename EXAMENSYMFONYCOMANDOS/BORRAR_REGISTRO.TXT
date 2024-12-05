@@ -1,0 +1,11 @@
+// PARA BORRAR ALGO PASAMOS EL ID Y HACEMOS ESTA FUNCION
+
+
+#[Route('/tareas/delete/{id}', name: 'tareas_delete')]
+    public function delete(Tarea $tarea, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($tarea);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_tareas');
+    }

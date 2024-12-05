@@ -30,7 +30,7 @@ class TareasController extends AbstractController
         //$tareas = $entityManager->getRepository(Tarea::class)->findAll();
 
         return $this->render('tareas/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
             //'tareas' => $tareas,
         ]);
     }

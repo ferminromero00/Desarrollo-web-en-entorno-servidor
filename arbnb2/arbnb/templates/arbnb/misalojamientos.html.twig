@@ -28,6 +28,7 @@
 				<th>#</th>
 				<th>Alojamiento</th>
 				<th></th>
+				<th></th>
 			</tr>
 
 			{% for alojamiento in app.user.Alojamientos %}
@@ -37,11 +38,17 @@
 					<td>
 						<a href="{{ path('app_cambiar_nombre_alojamiento', { 'id': alojamiento.id })}}">Cambiar Nombre</a>
 					</td>
+					<td>
+						<a href="{{ path('app_borrar', { 'id': alojamiento.id })}}">Borrar Instancia</a>
+					</td>
 				</tr>
 			{% endfor %}
 		</table>
 		<button>
 			<a href=" {{ path('app_mis_alojamientos_alquilados')}} ">Ver Alquilados</a>
+		</button>
+		<button>
+			<a href=" {{ path('app_anadir_alojamiento')}}">Añadir alojamiento</a>
 		</button>
 
 

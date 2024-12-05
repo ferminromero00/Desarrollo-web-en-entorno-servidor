@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Alojamiento;
 use App\Entity\Alquiler;
+use App\Form\AnadirAlojamientoType;
+use App\Form\AñadirAlojamientoType;
 use App\Form\EditarCuentaType;
 use App\Form\EditarNombreType;
 use App\Form\HacerAlquilerType;
@@ -95,8 +97,50 @@ class ArbnbController extends AbstractController
         return $this->render('arbnb/cambiarNombre.html.twig', [
             'titulo' => 'Cambiar nombre Alojamiento: ',
             'form' => $form,
-            'nombre' => $nombre
         ]);
     }
+
+    #[Route('/arbnb/borrar/{id}', name: 'app_borrar')]
+    public function borrar(EntityManagerInterface $e, Alojamiento $alojamiento): Response
+    {
+        // Obtener los alquileres relacionados
+        $alquileres = $alojamiento->getAlquileres();
+
+        // Eliminar cada alquiler relacionado
+        foreach ($alquileres as $alquiler) {
+            $e->remove($alquiler);
+        }
+
+        // Luego eliminar el alojamiento
+        $e->remove($alojamiento);
+        $e->flush();
+
+        return $this->redirectToRoute('app_mis_alojamientos');
+    }
+
+    #[Route('/arbnb/anadir', name: 'app_anadir_alojamiento')]
+    public function añadir(Request $request, EntityManagerInterface $e): Response
+    {
+        $aloja = new Alojamiento();
+        $form = $this->createForm(AnadirAlojamientoType::class, $aloja);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $aloja->setPropietario($this->getUser());
+            $e->persist($aloja);
+            $e->flush();
+
+            return $this->redirectToRoute('app_mis_alojamientos');
+        }
+
+        return $this->render('arbnb/cambiarNombre.html.twig', [
+            'titulo' => 'Cambiar nombre Alojamiento: ',
+            'form' => $form,
+        ]);
+    }
+
+
+
+
 
 }

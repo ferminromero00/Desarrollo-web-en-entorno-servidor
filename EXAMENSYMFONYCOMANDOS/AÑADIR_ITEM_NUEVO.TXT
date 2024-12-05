@@ -1,0 +1,18 @@
+#[Route('/tareas', name: 'app_tareas')]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $tarea = new Tarea();
+        $form = $this->createForm(TareaFormularioType::class, $tarea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tarea->setUsuario($this->getUser()); //pasamos el id del usuario directamente
+            $entityManager->persist($tarea);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_tareas');
+        }
+
+        return $this->render('tareas/index.html.twig', [
+            'form' => $form,
+        ]);
+    }
