@@ -1,0 +1,16 @@
+Requerimientos Funcionales
+Página de Inicio:
+
+Muestra un listado de todas las carpetas (directorios) dentro de notas.
+Permite al usuario seleccionar una carpeta para ver sus notas.
+Gestión de Notas en una Carpeta:
+
+Al seleccionar una carpeta, se muestra un listado con las notas (ficheros) que contiene.
+Permite al usuario realizar las siguientes acciones:
+Crear una nueva nota: Un formulario donde el usuario ingresa el nombre de la nota. Se crea un fichero nuevo dentro de la carpeta seleccionada.
+Leer una nota: Muestra el contenido de la nota seleccionada.
+Editar una nota: Permite modificar el contenido de una nota existente. Los cambios deben guardarse en el fichero correspondiente.
+Eliminar una nota: Elimina el fichero seleccionado.
+Salir del Gestor:
+
+Una opción para salir del programa, que redirige al usuario a la página de inicio.
