@@ -44,13 +44,18 @@ function enviarPregunta($respuesta)
 }
 
 function leerRespuestas($preguntanombre)
-{   
+{
     $ruta = 'examenes/' . $_SESSION["nameCuestionario"] . '/' . $_SESSION["pregunta"];
     $respuestas = file_get_contents($ruta);
     return $respuestas;
 
 }
 
-
+function agregarPregunta($cuestio, $newPregunta)
+{
+    $ruta = 'examenes/' . $_SESSION["nameCuestionario"];
+    $file = fopen($ruta . "/" . $newPregunta, "w");
+    fclose($file);
+}
 
 

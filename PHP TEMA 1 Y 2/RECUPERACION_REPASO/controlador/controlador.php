@@ -33,13 +33,22 @@ if (isset($_REQUEST["accion"])) {
             break;
         case "vertodaslasrespuestas":
             $_SESSION["nameCuestionario"] = $_REQUEST["cuestionario"];
-            $seleccion = leerPreguntas(cuestionarioNombre: $_REQUEST["cuestionario"]);
+            $seleccion = leerPreguntas($_REQUEST["cuestionario"]);
             $vista = "leerRespuestas.php";
             break;
         case "verrespuestas":
             $_SESSION["pregunta"] = $_REQUEST["nombrepregunta"];
             $ver = leerRespuestas($_SESSION["pregunta"]);
             $vista = "respuestas.php";
+            break;
+        case "agregarpregunta":
+            $_SESSION["nameCuestionario"] = $_REQUEST["cuestionario"];
+            $vista = "AgregarPreguntas.php";
+            break;
+        case "agregar":
+            $agregar = agregarPregunta($_SESSION["nameCuestionario"], $_REQUEST["nuevapregunta"]);
+            $cuestionarios = leerCuestionario('examenes');
+            $vista = "vercuestionarios.php";
             break;
     }
 }
