@@ -21,7 +21,7 @@ function leerPreguntas($cuestionarioNombre)
     $ficheros = scandir($ruta);
 
     foreach ($ficheros as $f) {
-        if ($f != "." && $f != ".." && $f != "respuestas.txt") {
+        if ($f != "." && $f != "..") {
             array_push($result, $f);
         }
     }
@@ -46,7 +46,7 @@ function enviarPregunta($respuesta)
 
 function leerRespuestas($preguntanombre)
 {
-    $ruta = 'examenes/' . $_SESSION["nameCuestionario"] . '/' . $_SESSION["pregunta"];
+    $ruta = 'examenes/' . $_SESSION["nameCuestionario"] . '/' . $preguntanombre;
     $respuestas = file_get_contents($ruta);
     return $respuestas;
 
@@ -54,7 +54,7 @@ function leerRespuestas($preguntanombre)
 
 function agregarPregunta($cuestio, $newPregunta)
 {
-    $ruta = 'examenes/' . $_SESSION["nameCuestionario"];
+    $ruta = 'examenes/' . $cuestio;
     $file = fopen($ruta . "/" . $newPregunta, "w");
     fclose($file);
 

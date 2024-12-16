@@ -27,7 +27,6 @@ if (isset($_REQUEST["accion"])) {
             break;
         case "enviarrespuesta":
             $enviar = enviarPregunta($_REQUEST["respuesta"]);
-            //Defino esto otra vez en la redireccion para evitar errores
             $seleccion = leerPreguntas($_SESSION["nameCuestionario"]);
             $vista = "ResponderCuestionario.php";
             break;
