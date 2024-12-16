@@ -41,6 +41,7 @@ function enviarPregunta($respuesta)
         );
         fclose($f);
     }
+    return $_SESSION["msj"] = "Respuesta guardada con exito";
 }
 
 function leerRespuestas($preguntanombre)
@@ -56,6 +57,8 @@ function agregarPregunta($cuestio, $newPregunta)
     $ruta = 'examenes/' . $_SESSION["nameCuestionario"];
     $file = fopen($ruta . "/" . $newPregunta, "w");
     fclose($file);
+
+    return $_SESSION["msj"] = "Pregunta añadida con exito";
 }
 
 

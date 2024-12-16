@@ -1,3 +1,5 @@
+<?php unset($_SESSION["msj"]) ?>
+
 <h1>Bienvenido <?php echo $_SESSION["persona"] ?> </h1>
 
 <?php if ($_SESSION["persona"] == "1234") { ?>

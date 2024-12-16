@@ -1,4 +1,5 @@
 <?php unset($_SESSION["msj"]) ?>
+
 <h2>Usuario activo: <?php echo $_SESSION["persona"] ?> </h2>
 <h1>Cuestionario de <?php echo $_SESSION["nameCuestionario"] ?> </h1>
 
