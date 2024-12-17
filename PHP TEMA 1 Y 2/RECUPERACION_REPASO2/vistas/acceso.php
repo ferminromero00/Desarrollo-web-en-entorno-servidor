@@ -1,6 +1,4 @@
-
-
-<form>
+<form method="post">
     <label for="name">Nombre</label><input type="text" name="name"> <br>
     <label for="name">Contraseña</label><input type="password" name="pass"><br>
     <input type="submit" name="accion" value="Entrar">
