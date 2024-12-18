@@ -66,17 +66,10 @@ if (isset($_REQUEST["accion"])) {
             $contenido = $_REQUEST["contenido"];
 
             $_SESSION["asuntoo"] = $asunto;
-
             $enviar = redactar($valorlista, $asunto, $contenido);
-
+            $_SESSION["seleccion"] = "Recibidos:";
             $vista = "PaginaPrincipal.php";
 
-            break;
-        case "":
-            break;
-        case "":
-            break;
-        case "":
             break;
     }
 }
