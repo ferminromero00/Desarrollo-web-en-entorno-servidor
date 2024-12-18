@@ -67,7 +67,8 @@ if (isset($_REQUEST["accion"])) {
 
             $_SESSION["asuntoo"] = $asunto;
             $enviar = redactar($valorlista, $asunto, $contenido);
-            $_SESSION["seleccion"] = "Recibidos:";
+            $_SESSION["seleccion"] = "Enviados:";
+            $seleccion = verEnviados($_SESSION["usuario"]);
             $vista = "PaginaPrincipal.php";
 
             break;
