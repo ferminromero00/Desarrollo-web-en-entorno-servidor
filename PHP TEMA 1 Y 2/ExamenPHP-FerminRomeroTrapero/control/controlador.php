@@ -65,6 +65,8 @@ if (isset($_REQUEST["accion"])) {
             $asunto = $_REQUEST["asunto"];
             $contenido = $_REQUEST["contenido"];
 
+            $_SESSION["asuntoo"] = $asunto;
+
             $enviar = redactar($valorlista, $asunto, $contenido);
 
             $vista = "PaginaPrincipal.php";

@@ -123,13 +123,13 @@ function escribircontenido($ruta1, $ruta2, $nom, $asuntoSinFecha, $contenido)
 {
     $f = fopen($ruta1, "a+");
     fwrite($f, "Para " . $nom . PHP_EOL);
-    fwrite($f, $asuntoSinFecha . PHP_EOL);
+    fwrite($f, $_SESSION["asuntoo"] . PHP_EOL);
     fwrite($f, $contenido . PHP_EOL);
     fclose($f);
 
     $f = fopen($ruta2, "a+");
     fwrite($f, "Para " . $nom . PHP_EOL);
-    fwrite($f, $asuntoSinFecha . PHP_EOL);
+    fwrite($f, $_SESSION["asuntoo"] . PHP_EOL);
     fwrite($f, $contenido . PHP_EOL);
     fclose($f);
 }
