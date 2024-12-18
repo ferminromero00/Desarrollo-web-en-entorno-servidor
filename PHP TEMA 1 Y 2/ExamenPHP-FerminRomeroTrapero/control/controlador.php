@@ -32,10 +32,13 @@ if (isset($_REQUEST["accion"])) {
             if ($validacion) {
                 $_SESSION["usuario"] = $nom;
                 $vista = "PaginaPrincipal.php";
+                $_SESSION["seleccion"] = "Recibidos:";
+                $seleccion = verRecibidos($nom);
+                $_SESSION["verResultado"] = "";
+            } else {
+                $_SESSION["alerta"] = "Ese usuario no existe";
             }
-            $_SESSION["seleccion"] = "Recibidos:";
-            $seleccion = verRecibidos($nom);
-            $_SESSION["verResultado"] = "";
+
             break;
 
         case "recibidos":
