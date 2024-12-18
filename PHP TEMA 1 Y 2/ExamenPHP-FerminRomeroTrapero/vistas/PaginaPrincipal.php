@@ -10,7 +10,7 @@
 <br>
 
 
-<?php if ($accion == "recibidos" || $accion == "enviados" || $_SESSION["seleccion"] == "Recibidos:") { ?>
+<?php if ($accion == "recibidos" || $accion == "enviados" || $_SESSION["seleccion"] == "Recibidos:" || $_SESSION["seleccion"] = "Enviados:") { ?>
     <h2> <?php echo $_SESSION["seleccion"] ?> </h2>
 
     <?php foreach ($seleccion as $a): ?>
