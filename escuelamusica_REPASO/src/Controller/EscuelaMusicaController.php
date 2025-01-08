@@ -20,17 +20,26 @@ class EscuelaMusicaController extends AbstractController
     {
         if ($this->getUser()->isProfesor()) {
             return $this->redirectToRoute('app_profesor');
-        }else{
-           
-            return $this->redirectToRoute('app_alumno');        }
-        
+        } else {
+
+            return $this->redirectToRoute('app_alumno');
+        }
+
     }
 
     #[Route('/escuela/musica/profesor', name: 'app_profesor')]
     public function profesor(Request $request, EntityManagerInterface $em): Response
     {
-        // Por poner algo
-        return $this->render('escuelamusica/index.html.twig');
+        $form = $this->createForm(FormImpartirInstrumentoType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
+    
+
+        return $this->render('escuelamusica/misclases.html.twig', [
+            'form' => $form
+        ]);
 
     }
 
@@ -38,7 +47,9 @@ class EscuelaMusicaController extends AbstractController
     public function alumno(Request $request, EntityManagerInterface $em): Response
     {
         // Por poner algo
-        return $this->render('escuelamusica/index.html.twig');
+        return $this->render('escuelamusica/alumnado.html.twig', [
+            'alumno' => $this->getUser()
+        ]);
     }
 
     #[Route('/escuela/musica/alumnos', name: 'app_alumnos')]
@@ -48,10 +59,20 @@ class EscuelaMusicaController extends AbstractController
         return $this->render('escuelamusica/index.html.twig');
     }
 
+    #[Route('/escuela/musica/alumnos/{id}', name: 'app_ver_alumnado_matriculado')]
+    public function alumnado_matriculado(Request $request, EntityManagerInterface $em, Instrumento $instrumento): Response
+    {
+        return $this->render('escuelamusica/alumnadoMatriculado.html.twig', [
+            'instrumento' => $instrumento
+        ]);
+    }
+
     #[Route('/escuela/musica/instrumento', name: 'app_instrumentos')]
     public function instrumentos(Request $request, EntityManagerInterface $em): Response
     {
         // Por poner algo
         return $this->render('escuelamusica/index.html.twig');
     }
+
+
 }
