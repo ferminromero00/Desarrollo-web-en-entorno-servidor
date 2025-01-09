@@ -33,14 +33,24 @@ class EscuelaMusicaController extends AbstractController
         $form = $this->createForm(FormImpartirInstrumentoType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            //Recojo el instrumento, es un array de un solo elemento
+            $data = $form->getData();
+            //Obtengo el id del array
+            $id = $data['instrumento'];
+            //obtengo el instrumento de la tabla en forma de objeto
+            $instrumento = $em->getRepository(Instrumento::class)->find($id);
+            //Añado el instrmento a la lista de instrumento del profesor
+            $this->getUser()->addInstrumento($instrumento);
+            //Grabo la lista de instrumentos
+            $em->persist($instrumento);
+            //Ejecuta
+            $em->flush();
         }
-    
+
 
         return $this->render('escuelamusica/misclases.html.twig', [
             'form' => $form
         ]);
-
     }
 
     #[Route('/escuela/musica/alumno', name: 'app_alumno')]
@@ -55,8 +65,21 @@ class EscuelaMusicaController extends AbstractController
     #[Route('/escuela/musica/alumnos', name: 'app_alumnos')]
     public function alumnado(Request $request, EntityManagerInterface $em): Response
     {
-        // Por poner algo
-        return $this->render('escuelamusica/index.html.twig');
+        //Obtenemos todo el alumnado, sin el profesorado
+        $alumnado = $em->getRepository(Usuario::class)->findByExampleField(false);
+        return $this->render('escuelamusica/todoAlumnado.html.twig', [
+            'alumnado' => $alumnado
+        ]);
+    }
+
+    #[Route('/escuela/musica/matricula/{id}', name: 'app_ver_matricula_alumnos')]
+    public function ver_matricula_alumno(Request $request, EntityManagerInterface $em, Usuario $alumno): Response
+    {
+        
+
+        return $this->render('escuelamusica/matriculaAlumno.html.twig', [
+            'alumno' => $alumno
+        ]);
     }
 
     #[Route('/escuela/musica/alumnos/{id}', name: 'app_ver_alumnado_matriculado')]

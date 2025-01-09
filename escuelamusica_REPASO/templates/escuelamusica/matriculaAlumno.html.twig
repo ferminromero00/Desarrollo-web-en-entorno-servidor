@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}[Mis clases]
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	<div class="container">
+		<div>
+			{{ form_start (form)}}
+			{{ "Seleciona el instrument en el que quieres matricular a...." }}
+			{{ form_widget(form.instrumento) }}
+			{{ form_widget(form.seleccionar) }}
+			{{ form_end (form) }}
+		</div>
+
+		<table class="table table-stripped table-hover">
+			<thead>
+				<tr>
+					<th>Instrumento</th>
+					<th></th>
+				</tr>
+			</thead>
+			{% for instrumento in app.user.Instrumentos %}
+				<tr>
+					<td>
+						{{ instrumento.Nombre }}
+					</td>
+					<td>
+						<a href=" {{ path('app_ver_alumnado_matriculado', { id:instrumento.id }) }} ">Ver alumnado Matriculado</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</div>
+	{% endblock %}
