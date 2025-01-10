@@ -22,7 +22,7 @@
 		{% for a in articulos %}
 			<table class="table table-stripped table-hover">
 				<th>
-					Precio
+					Nombre
 				</th>
 				<th>
 					Precio
@@ -36,11 +36,13 @@
 						{{ a.Precio }}€
 					</td>
 					<td>
-						<a href=" ">Añadir</a>
+						<a href=" {{ path('app_añadir_pedido') }} ">Añadir</a>
 					</td>
 				</tr>
 			</table>
 		{% endfor %}
+
+		<br>
 
 		{{ dump(articulos) }}
 
