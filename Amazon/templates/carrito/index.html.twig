@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carrito
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+
+		{% for a in articulos %}
+			<table class="table table-stripped table-hover">
+				<th>
+					Precio
+				</th>
+				<th>
+					Precio
+				</th>
+				<th></th>
+				<tr>
+					<td>
+						{{ a.Nombre }}
+					</td>
+					<td>
+						{{ a.Precio }}€
+					</td>
+					<td>
+						<a href=" ">Añadir</a>
+					</td>
+				</tr>
+			</table>
+		{% endfor %}
+
+		{{ dump(articulos) }}
+
+	</div>
+{% endblock %}
