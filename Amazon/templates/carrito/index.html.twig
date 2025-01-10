@@ -36,7 +36,7 @@
 						{{ a.Precio }}€
 					</td>
 					<td>
-						<a href=" {{ path('app_añadir_pedido') }} ">Añadir</a>
+						<a href=" {{ path('app_carrito_nuevoarticulo', {id: a.id}) }} ">Añadir</a>
 					</td>
 				</tr>
 			</table>
