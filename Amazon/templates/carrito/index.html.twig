@@ -18,16 +18,15 @@
 	</style>
 
 	<div class="example-wrapper">
-
-		{% for a in articulos %}
-			<table class="table table-stripped table-hover">
-				<th>
-					Nombre
-				</th>
-				<th>
-					Precio
-				</th>
-				<th></th>
+		<table class="table table-stripped table-hover">
+			<th>
+				Nombre
+			</th>
+			<th>
+				Precio
+			</th>
+			<th></th>
+			{% for a in articulos %}
 				<tr>
 					<td>
 						{{ a.Nombre }}
@@ -39,9 +38,9 @@
 						<a href=" {{ path('app_carrito_nuevoarticulo', {id: a.id}) }} ">Añadir</a>
 					</td>
 				</tr>
-			</table>
-		{% endfor %}
-
+			{% endfor %}
+		</table>
+		<button><a href=" {{'app_vaciar_cesta'}} ">Vaciar cesta</a></button>
 		<br>
 
 		{{ dump(articulos) }}

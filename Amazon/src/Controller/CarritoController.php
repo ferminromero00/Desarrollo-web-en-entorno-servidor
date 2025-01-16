@@ -32,6 +32,8 @@ class CarritoController extends AbstractController
     #[Route('/carrito/nuevoarticulo/{id}', name: 'app_carrito_nuevoarticulo')]
     public function addnuevoarticulo(EntityManagerInterface $em, Request $request, Articulo $articulo): Response
     {
+        //Obtenemos todos los articulos
+        $articulos = $em->getRepository(Articulo::class)->findAll();
         //Recuperamos el pedido
         $pedido = $request->getSession()->get('pedido');
         //Creamos nueva linea
@@ -41,13 +43,30 @@ class CarritoController extends AbstractController
         //Establecemos articulo
         $linea->setArticulo($articulo);
         //Añadimosla linea al pedido
-        $pedido->addLineaPedidos($linea);
+        $pedido->addLineaPedido($linea);
 
         return $this->render('carrito/nuevoarticulo.html.twig', [
-            'articulos' => $articulo,
-            
+            'articulos' => $articulos,
+            'pedido' => $pedido
         ]);
     }
+    #[Route('/carrito/vaciarcesta', name: 'app_vaciar_cesta')]
+    public function vaciarCesta(EntityManagerInterface $em, Request $request): Response
+    {
+        //Crear nuevo pedido
+        $pedido = new Pedido();
+        //Sustituimos en la sesion de pedido actual por el pedido vacio
+        $request->getSession()->set('pedido', $pedido);
+        //Recogemos de la BD todos los articulos
+        $articulos = $em->getRepository(Articulo::class)->findAll();
+
+        return $this->render('carrito/index.html.twig', [
+            'articulos' => $articulos,
+            'pedido' => $pedido
+        ]);
+    }
+
+
 
 
 }

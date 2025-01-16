@@ -18,8 +18,15 @@
 	</style>
 
 	<div class="example-wrapper">
+		{% include "carrito/index.html.twig" %}
 
-		
-
+		<h2>Cesta</h2>
+		<table class="table table-stripped table-hover">
+			{% for linea in pedido.LineaPedidos %}
+				<tr>
+					<td>{{ linea.Articulo.Nombre }}</td>
+				</tr>
+			{% endfor %}
+		</table>
 	</div>
 {% endblock %}
