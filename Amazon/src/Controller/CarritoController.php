@@ -99,8 +99,24 @@ class CarritoController extends AbstractController
     public function grabarPedido(EntityManagerInterface $em, Request $request): Response
     {
 
-        
+        // Recuperamos el pedido de la sesión
+        $pedido = $request->getSession()->get('pedido');
+        /* Persistimos el pedido para que Doctrine sepa que tiene que actualizar 
+        (insertar, borrar o modificar) el pedido en la base de datos */
+        $lineas = $pedido->getLineaPedidos();
+        foreach ($lineas as $linea) {
+            $em->detach($linea->getArticulo());
+            $em->persist($linea);
+        }
 
+        $em->detach($pedido->getCliente());
+        $em->persist($pedido);
+        // Le decimos a Doctrine que efectue los camboios en la base de datos
+        $em->flush();
+        $this->addFlash('mensaje','El pedido se ha grabado correctamente');
+        return $this->render('carrito/resumen.html.twig', [
+            'pedido' => $pedido
+        ]);
 
 
     }
