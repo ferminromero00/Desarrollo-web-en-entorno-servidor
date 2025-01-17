@@ -21,6 +21,10 @@ class Articulo
     #[ORM\Column]
     private ?float $precio = null;
 
+    public function __construct()
+    {
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -49,4 +53,6 @@ class Articulo
 
         return $this;
     }
+
+   
 }

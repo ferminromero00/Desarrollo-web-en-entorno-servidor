@@ -28,6 +28,7 @@ class Pedido
     #[ORM\OneToMany(targetEntity: LineaPedido::class, mappedBy: 'pedido')]
     private Collection $lineaPedidos;
 
+   
     public function __construct()
     {
         $this->lineaPedidos = new ArrayCollection();
@@ -91,4 +92,17 @@ class Pedido
 
         return $this;
     }
+
+    public function getTotalPedido() {
+
+        $total = 0;
+        $lineas = $this->getLineaPedidos();
+
+        foreach ($lineas as $linea) {
+            $total = $total + $linea->getArticulo()->getPrecio()*$linea->getCantidad();
+        }
+        return $total;
+    }
+
+  
 }
