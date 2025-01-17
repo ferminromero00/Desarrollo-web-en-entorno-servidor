@@ -82,10 +82,27 @@ class CarritoController extends AbstractController
             // ¿ Dónde debemos ir después de identificarnos ? --> volvemos a finalizar pedido
             return $this->redirectToRoute('app_login');
         }
+        // Recuperamos el pedido de la sesión
+        $pedido = $request->getSession()->get('pedido');
+        // Asociamos el cliente al pedido
+        $pedido->setCliente($this->getUser());
+        // Le damos una fecha provisional al pedido
+        $pedido->setFecha(new \DateTime());
+        // Mostramos una pçágina de resumen del pedido
+        return $this->render('carrito/resumen.html.twig', [
+            'pedido' => $pedido
+        ]);
 
-        // Mostrar un resumen del pedido en una nueva página
-        // Desde esa página podremos llamar a un mçétodo del 
-        // controlador para poder grabar definitivamente el pedido
+    }
+
+    #[Route('/carrito/grabarpedido', name: 'app_grabar_pedido')]
+    public function grabarPedido(EntityManagerInterface $em, Request $request): Response
+    {
+
+        
+
+
+
     }
 }
 
