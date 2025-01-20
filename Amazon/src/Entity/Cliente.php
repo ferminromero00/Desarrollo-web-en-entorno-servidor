@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[ORM\Table(name:'cliente', uniqueConstraints:[new ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', columns: ['username'])])]
 #[ORM\Entity(repositoryClass: ClienteRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
@@ -38,7 +39,7 @@ class Cliente implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Pedido>
      */
-    #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente')]
+    #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente', cascade:['detach'])]
     private Collection $pedidos;
 
     #[ORM\Column]

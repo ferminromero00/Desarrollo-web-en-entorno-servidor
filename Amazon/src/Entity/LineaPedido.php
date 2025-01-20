@@ -20,14 +20,31 @@ class LineaPedido
     #[ORM\JoinColumn(nullable: false)]
     private ?Pedido $pedido = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    /*#[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]*/
+    // Desvinculo el objeto de la entidad
     private ?Articulo $articulo = null;
 
-    public function getId(): ?int
-    {
+    #[ORM\Column]
+    private ?int $articuloId;
+
+    public function getId (): ?int
+    { 
         return $this->id;
     }
+
+    public function getArticuloId (): ?int
+    { 
+        return $this->articuloId;
+    }
+
+    public function setArticuloId ($id): static
+    { 
+        $this->articuloId = $id;
+        return $this;
+    }
+
+
 
     public function getCantidad(): ?int
     {

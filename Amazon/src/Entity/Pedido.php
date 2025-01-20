@@ -19,12 +19,20 @@ class Pedido
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fecha = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pedidos')]
+    /*#[ORM\ManyToOne(inversedBy: 'pedidos',  cascade:['detach'])]
+    #[ORM\JoinColumn(nullable:false)]*/
+
+    #[ORM\Column]
+    // Creamos una propiedad asociada con el campo cliente_id de la base de datos
+    private ?int $clienteId;
+
+    // Desvinculamos la entidad cliente de Doctrine
     private ?Cliente $cliente = null;
 
     /**
      * @var Collection<int, LineaPedido>
      */
+    // , cascade:['persist']
     #[ORM\OneToMany(targetEntity: LineaPedido::class, mappedBy: 'pedido')]
     private Collection $lineaPedidos;
 
@@ -32,6 +40,17 @@ class Pedido
     public function __construct()
     {
         $this->lineaPedidos = new ArrayCollection();
+    }
+
+    public function getClienteId(): ?int
+    {
+        return $this->clienteId;
+    }
+
+    public function setClienteId(int $id): static
+    {
+        $this->clienteId = $id;
+        return $this;
     }
 
     public function getId(): ?int

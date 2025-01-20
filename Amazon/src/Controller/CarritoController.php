@@ -42,6 +42,7 @@ class CarritoController extends AbstractController
         $linea->setCantidad(1);
         // Establecemos el artículo
         $linea->setArticulo($articulo);
+        $linea->setArticuloId($articulo->getId());
         // Recuperamos el pedido de la sesión
         $pedido = $request->getSession()->get('pedido');
         // Añadimos la línea al pedido 
@@ -86,9 +87,12 @@ class CarritoController extends AbstractController
         $pedido = $request->getSession()->get('pedido');
         // Asociamos el cliente al pedido
         $pedido->setCliente($this->getUser());
+        $pedido->setClienteId($this->getUser()->getId());
         // Le damos una fecha provisional al pedido
         $pedido->setFecha(new \DateTime());
-        // Mostramos una pçágina de resumen del pedido
+        // Guardamos el pedido en la sesión
+        $request->getSession()->set('pedido', $pedido);
+        // Mostramos una página de resumen del pedido
         return $this->render('carrito/resumen.html.twig', [
             'pedido' => $pedido
         ]);
@@ -105,11 +109,13 @@ class CarritoController extends AbstractController
         (insertar, borrar o modificar) el pedido en la base de datos */
         $lineas = $pedido->getLineaPedidos();
         foreach ($lineas as $linea) {
-            $em->detach($linea->getArticulo());
+            // $em->persist($linea->getArticulo());
+            // $em->persist($linea->getArticulo());
             $em->persist($linea);
+            
+            //$em->detach($linea->getArticulo());
         }
-
-        $em->detach($pedido->getCliente());
+        // Persistimos el pedido        
         $em->persist($pedido);
         // Le decimos a Doctrine que efectue los camboios en la base de datos
         $em->flush();
