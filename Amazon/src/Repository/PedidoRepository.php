@@ -16,6 +16,23 @@ class PedidoRepository extends ServiceEntityRepository
         parent::__construct($registry, Pedido::class);
     }
 
+    /**
+     * @return Pedido[] Returns an array of Pedido objects
+     */
+    public function findByField($campo, $value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.'.$campo.'= :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
     //    /**
     //     * @return Pedido[] Returns an array of Pedido objects
     //     */

@@ -28,7 +28,7 @@ class Pedido
     
     //#[ORM\Column]
     // Creamos una propiedad asociada con el campo cliente_id de la base de datos
-    private ?int $clienteId;
+    // private ?int $clienteId;
 
     
 

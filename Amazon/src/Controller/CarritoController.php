@@ -123,7 +123,6 @@ class CarritoController extends AbstractController
         $em->persist($this->getUser());
         // Le decimos a Doctrine que efectue los cambios en la base de datos
         $em->flush();
-        
         $this->addFlash('mensaje','El pedido se ha grabado correctamente');
         return $this->render('carrito/resumen.html.twig', [
             'pedido' => $pedido
@@ -136,11 +135,27 @@ class CarritoController extends AbstractController
     public function misPedidos(EntityManagerInterface $em, Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login', [
+                'redireccion' =>'app_mispedidos'
+            ]);
         }
 
+        $pedidos = $em->getRepository(Pedido::class)->findByField('cliente', $this->getUser()->getId());
+        return $this->render('carrito/mispedidos.html.twig', [
+            'pedidos' => $pedidos
+
+        ]);
 
     }
+
+    #[Route('/carrito/detallepedido/{id}', name: 'app_detalle_pedido')]
+    public function detallePedido(Pedido $pedido, EntityManagerInterface $em, Request $request): Response
+    {
+        dd($pedido);
+
+    }
+
+
 }
 
 /*
