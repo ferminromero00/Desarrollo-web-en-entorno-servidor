@@ -40,7 +40,7 @@ class CarritoController extends AbstractController
         $linea = new LineaPedido();
         // Establecemos la cantidad
         $linea->setCantidad(1);
-        // Establecemos el artículo
+        // Establecemos el artículo, no está mapeado en la tabla
         $linea->setArticulo($articulo);
         $linea->setArticuloId($articulo->getId());
         // Recuperamos el pedido de la sesión
@@ -115,14 +115,29 @@ class CarritoController extends AbstractController
             
             //$em->detach($linea->getArticulo());
         }
+        // Añadimos el pedido al cliente
+        $this->getUser()->addPedido($pedido);
         // Persistimos el pedido        
         $em->persist($pedido);
-        // Le decimos a Doctrine que efectue los camboios en la base de datos
+        // Dejamo spara el final a la entidad más fuerte
+        $em->persist($this->getUser());
+        // Le decimos a Doctrine que efectue los cambios en la base de datos
         $em->flush();
+        
         $this->addFlash('mensaje','El pedido se ha grabado correctamente');
         return $this->render('carrito/resumen.html.twig', [
             'pedido' => $pedido
         ]);
+
+
+    }
+
+    #[Route('/carrito/mispedidos', name: 'app_mispedidos')]
+    public function misPedidos(EntityManagerInterface $em, Request $request): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
 
 
     }

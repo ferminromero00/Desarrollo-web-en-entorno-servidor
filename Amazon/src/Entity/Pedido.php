@@ -19,15 +19,18 @@ class Pedido
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fecha = null;
 
-    /*#[ORM\ManyToOne(inversedBy: 'pedidos',  cascade:['detach'])]
-    #[ORM\JoinColumn(nullable:false)]*/
-
-    #[ORM\Column]
+    
+    
+    #[ORM\ManyToOne(inversedBy: 'pedidos',  cascade:['detach'])]
+    #[ORM\JoinColumn(nullable:false)]
+    // NO Desvinculamos la entidad cliente de Doctrine
+    private ?Cliente $cliente = null;
+    
+    //#[ORM\Column]
     // Creamos una propiedad asociada con el campo cliente_id de la base de datos
     private ?int $clienteId;
 
-    // Desvinculamos la entidad cliente de Doctrine
-    private ?Cliente $cliente = null;
+    
 
     /**
      * @var Collection<int, LineaPedido>

@@ -20,13 +20,13 @@ class LineaPedido
     #[ORM\JoinColumn(nullable: false)]
     private ?Pedido $pedido = null;
 
-    /*#[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]*/
+    /*#[ORM\OneToOne]
+     #[ORM\JoinColumn(nullable: false)]*/
     // Desvinculo el objeto de la entidad
     private ?Articulo $articulo = null;
 
     #[ORM\Column]
-    private ?int $articuloId;
+    private ?int $articuloId; // Hacer referencia al campo atriculo_id de la tabla LineaPedido
 
     public function getId (): ?int
     { 
