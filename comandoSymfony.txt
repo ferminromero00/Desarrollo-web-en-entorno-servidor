@@ -3,6 +3,7 @@ symfony new --webapp TareasSymfony
 symfony new --webapp --no-git TareasSymfony
 symfony new --webapp --no-interaction TareasSymfony 
 symfony new --webapp --no-git --no-interaction TareasSymfony (EL QUE FUNCIONA)
+composer require lexik/jwt-authentication-bundle
 
 //COMANDO DE AYUDA
 php bin/console make: (Es la ayuda para ver bastantes comandos)
