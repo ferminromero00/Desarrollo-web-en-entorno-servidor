@@ -21,6 +21,16 @@ security:
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: app_finalizar_pedido
+
+            json_login:
+                check_path: /api/login
+                username_path: username
+                password_path: password
+                # LA identificación se hace automática, después se llama a la siguiente clase para generar el token
+                # App\Security\JwtSuccessHandler es la clase que se encargará de generar el token
+                success_handler: App\Security\JwtSuccessHandler
+            
+
             logout:
                 path: app_logout
                 # where to redirect after logout

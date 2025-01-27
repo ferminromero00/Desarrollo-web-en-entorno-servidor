@@ -3,7 +3,22 @@ symfony new --webapp TareasSymfony
 symfony new --webapp --no-git TareasSymfony
 symfony new --webapp --no-interaction TareasSymfony 
 symfony new --webapp --no-git --no-interaction TareasSymfony (EL QUE FUNCIONA)
+
+
+API:
 composer require lexik/jwt-authentication-bundle
+
+php bin/console lexik:jwt:generate-keypair --overwrite
+
+Security_yml:
+json_login:
+check_path: /api/login
+username_path: username
+password_path: password
+# LA identificación se hace automática, después se llama a la siguiente clase para generar el token
+# App\Security\JwtSuccessHandler es la clase que se encargará de generar el token
+success_handler: App\Security\JwtSuccessHandler
+
 
 //COMANDO DE AYUDA
 php bin/console make: (Es la ayuda para ver bastantes comandos)

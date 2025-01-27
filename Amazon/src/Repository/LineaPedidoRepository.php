@@ -16,6 +16,21 @@ class LineaPedidoRepository extends ServiceEntityRepository
         parent::__construct($registry, LineaPedido::class);
     }
 
+     /**
+     * @return LineaPedido[] Returns an array of LineaPedido objects
+     */
+    public function findByField($campo, $value): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.'.$campo.'= :val')
+            ->setParameter('val', $value)
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return LineaPedido[] Returns an array of LineaPedido objects
     //     */

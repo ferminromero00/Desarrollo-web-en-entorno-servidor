@@ -124,6 +124,8 @@ class CarritoController extends AbstractController
         // Le decimos a Doctrine que efectue los cambios en la base de datos
         $em->flush();
         $this->addFlash('mensaje','El pedido se ha grabado correctamente');
+        // Eliminar el pedido de la sesión
+        $requets->getSession()->remove('pedido');
         return $this->render('carrito/resumen.html.twig', [
             'pedido' => $pedido
         ]);
@@ -151,38 +153,49 @@ class CarritoController extends AbstractController
     #[Route('/carrito/detallepedido/{id}', name: 'app_detalle_pedido')]
     public function detallePedido(Pedido $pedido, EntityManagerInterface $em, Request $request): Response
     {
-        dd($pedido);
+        // dd($pedido);
+        $lineas = $em->getRepository(LineaPedido::class)->findByField('pedido', $pedido->getId());
+        foreach ($lineas as $l) {
+            $articulo = $em->getRepository(Articulo::class)->find($l->getArticuloId());
+            $l->setArticulo($articulo);
+            $pedido->addLineaPedido($l);
+        }
 
+        return $this->render('carrito/detallepedido.html.twig', [
+            'pedido' => $pedido
+        ]);
+    }
+
+    #[Route('/carrito/eliminarlinea/{pedido}/{linea}', name: 'app_eliminar_linea')]
+    public function eliminarLinea(Pedido $pedido, LineaPedido $linea, EntityManagerInterface $em, Request $request): Response
+    //public function eliminarLinea(int $pedido, int $linea, EntityManagerInterface $em, Request $request): Response
+    {
+        // Vuelvo a leer las líneas del pedido   
+        $lineas = $em->getRepository(LineaPedido::class)->findByField('pedido', $pedido->getId());
+        foreach ($lineas as $l) {
+            // Y para cada línea leo de la base de datos el artículo
+            $articulo = $em->getRepository(Articulo::class)->find($l->getArticuloId());
+            // Se lo asocio a la línea
+            $l->setArticulo($articulo);
+            // Y le añado la línea al pedido
+            $pedido->addLineaPedido($l);
+        }
+        
+        // Borrar la línea de pedido de la base de datos
+        $em->remove($linea);
+        $em->flush();
+        // Borrar la línea de pedido de la la colección de líneas de pedido del pedido
+        $pedido->removeLineaPedido($linea);
+        
+        return $this->render('carrito/detallepedido.html.twig', [
+            'pedido' => $pedido
+        ]);
     }
 
 
+
+
+
+
 }
 
-/*
-// Recuperamos el pedido de la sesión
-$pedido = $request->getSession()->get('pedido');
-// Estableced la fecha
-$fecha = new \DateTime();
-$pedido->setFecha($fecha);
-// Estableced el cliente
-$cliente = $em->getRepository(Cliente::class)->find(1);
-$pedido->setCliente($cliente);
-// Si no existe abrimos el formulario de autenticación
-// Después de la autenticación volvemos a grabar el pedido
-// Recorremos cada línea de pedido
-$lineas = $pedido->getLineaPedidos();        
-foreach ($lineas as $linea) {
-    // Y Persisitimos cada una de las líneas
-    $articulo = $linea->getArticulo();
-    $em->detach($articulo);
-    $em->persist($linea);
-    $em->detach($articulo);
-}
-// Persistimos el pedido
-$em->persist($pedido);
-// Grabamos todo
-$em->flush();
-return $this->render('carrito/resumen.html.twig', [
-    'pedido' => $pedido
-]);
-*/
