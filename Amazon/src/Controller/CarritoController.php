@@ -125,7 +125,7 @@ class CarritoController extends AbstractController
         $em->flush();
         $this->addFlash('mensaje','El pedido se ha grabado correctamente');
         // Eliminar el pedido de la sesión
-        $requets->getSession()->remove('pedido');
+        $request->getSession()->remove('pedido');
         return $this->render('carrito/resumen.html.twig', [
             'pedido' => $pedido
         ]);
