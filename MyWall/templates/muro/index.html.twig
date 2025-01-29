@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carrito
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<aside class="mt-3"></aside>
+	<div class="container mt-3"></div>
+	{% if app.user %}
+		<h2>Hola,
+			{{ app.user.username }}!</h2>
+	{% else %}
+		<script>
+			window.location.href = "{{ path('app_login') }}";
+		</script>
+	{% endif %}
+{% endblock %}
