@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79e1da5172793ee95dcfeb544b9b04ab",
+    "content-hash": "dd06e7689dfb87f8b59aba6cad378251",
     "packages": [
         {
             "name": "composer/semver",
@@ -6848,16 +6848,16 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.21.0",
+            "version": "v2.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "075c609e54fc421c6b1c1974e46e9a8b2d44277c"
+                "reference": "97718ea4bca26f0db843c3c0de338d6900c5a002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/075c609e54fc421c6b1c1974e46e9a8b2d44277c",
-                "reference": "075c609e54fc421c6b1c1974e46e9a8b2d44277c",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/97718ea4bca26f0db843c3c0de338d6900c5a002",
+                "reference": "97718ea4bca26f0db843c3c0de338d6900c5a002",
                 "shasum": ""
             },
             "require": {
@@ -6892,8 +6892,8 @@
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
-                    "name": "symfony/ux",
-                    "url": "https://github.com/symfony/ux"
+                    "url": "https://github.com/symfony/ux",
+                    "name": "symfony/ux"
                 }
             },
             "autoload": {
@@ -6926,7 +6926,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.21.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.22.1"
             },
             "funding": [
                 {
@@ -6942,7 +6942,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-21T19:07:02+00:00"
+            "time": "2024-12-05T14:25:02+00:00"
         },
         {
             "name": "symfony/validator",
@@ -9837,7 +9837,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -9845,6 +9845,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
