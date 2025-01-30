@@ -34,10 +34,24 @@ class Publicacion
      */
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'publicacion')]
     private Collection $comentarios;
+    /** * @ORM\Column(type="datetime")*/
 
+    private $fecha;
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
+        return $this;
+    }
     public function __construct()
     {
         $this->comentarios = new ArrayCollection();
+        $this->fechaCreacion = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
