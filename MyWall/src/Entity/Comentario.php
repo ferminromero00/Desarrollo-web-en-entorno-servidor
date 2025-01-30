@@ -17,7 +17,7 @@ class Comentario
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'comentarios')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Usuario $usuario = null;
 
     #[ORM\ManyToOne(inversedBy: 'comentarios')]

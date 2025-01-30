@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Comentario;
 use App\Entity\Publicacion;
-use App\Form\ComentarioType;
 use App\Form\PublicacionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,24 +19,26 @@ class MyWallController extends AbstractController
         $publicacion = new Publicacion();
         $form = $this->createForm(PublicacionType::class, $publicacion);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $publicacion->setUsuario($this->getUser());
             $publicacion->setFechaCreacion(new \DateTimeImmutable());
             $entityManager->persist($publicacion);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_muro');
         }
-
-        // Obtener las publicaciones ordenadas por fecha de creación
-        $publicaciones = $entityManager->getRepository(Publicacion::class)->findBy([], ['fechaCreacion' => 'DESC']);
-
+    
+        // Obtener solo las publicaciones del usuario logueado
+        $publicaciones = $entityManager->getRepository(Publicacion::class)
+            ->findBy(['usuario' => $this->getUser()], ['fechaCreacion' => 'DESC']);
+    
         return $this->render('muro/index.html.twig', [
             'form' => $form->createView(),
-            'publicaciones' => $publicaciones, // Enviar publicaciones a la vista
+            'publicaciones' => $publicaciones, // Enviar solo las publicaciones del usuario logueado
         ]);
     }
+    
 
     #[Route('/publicar', name: 'app_publicar', methods: ['POST'])]
     public function publicar(Request $request, EntityManagerInterface $entityManager): Response
@@ -58,44 +59,76 @@ class MyWallController extends AbstractController
     }
 
     #[Route('/publicacion/{id}/eliminar', name: 'app_eliminar_publicacion', methods: ['POST'])]
-    public function eliminarPublicacion($id, EntityManagerInterface $entityManager): Response
+    public function eliminarPublicacion(Publicacion $publicacion, EntityManagerInterface $entityManager): Response
     {
-        // Buscar la publicación por su ID
-        $publicacion = $entityManager->getRepository(Publicacion::class)->find($id);
-
-        // Verificar si la publicación existe y si pertenece al usuario
-        if ($publicacion && $publicacion->getUsuario() === $this->getUser()) {
-            // Eliminar la publicación
-            $entityManager->remove($publicacion);
-            $entityManager->flush();
+        // Asegurarse de que el usuario sea el propietario de la publicación
+        if ($publicacion->getUsuario() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('No tienes permiso para eliminar esta publicación.');
         }
 
-        // Redirigir de nuevo al muro
+        // Eliminar los comentarios relacionados
+        foreach ($publicacion->getComentarios() as $comentario) {
+            $entityManager->remove($comentario);
+        }
+
+        // Elimina los comentarios hijos de los comentarios principales
+        foreach ($publicacion->getComentarios() as $comentario) {
+            $this->eliminarComentariosHijos($comentario, $entityManager);
+        }
+        // Luego eliminar la publicación
+        $entityManager->remove($publicacion);
+        $entityManager->flush();
+
         return $this->redirectToRoute('app_muro');
+    }
+
+    private function eliminarComentariosHijos(Comentario $comentario, EntityManagerInterface $em)
+    {
+        // Elimina todos los comentarios hijos
+        foreach ($comentario->getComentarios() as $comentarioHijo) {
+            $this->eliminarComentariosHijos($comentarioHijo, $em); // Recursión para eliminar los hijos de los hijos
+        }
+
+        // Elimina el comentario padre (actual)
+        $em->remove($comentario);
     }
 
     #[Route('/publicacion/{id}/comentar', name: 'app_comentar_publicacion', methods: ['POST'])]
     public function comentar(Publicacion $publicacion, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $comentario = new Comentario();
-        $comentario->setPublicacion($publicacion);
-        $comentario->setUsuario($this->getUser());
-        $comentario->setFechaCreacion(new \DateTimeImmutable());
+        $contenidoComentario = $request->request->get('contenido_comentario');
 
-        $form = $this->createForm(ComentarioType::class, $comentario);
-        $form->handleRequest($request);
+        if ($contenidoComentario) {
+            $comentario = new Comentario();
+            $comentario->setPublicacion($publicacion);
+            $comentario->setUsuario($this->getUser());
+            $comentario->setContenido($contenidoComentario);
+            $comentario->setFechaCreacion(new \DateTimeImmutable());
 
-        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($comentario);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_muro');
         }
 
-        return $this->render('muro/comentar.html.twig', [
-            'form' => $form->createView(),
-            'publicacion' => $publicacion,
-        ]);
+        return $this->redirectToRoute('app_muro');
+    }
+
+    #[Route('/comentario/{id}/responder', name: 'app_responder_comentario', methods: ['POST'])]
+    public function responder(Comentario $comentarioPadre, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $contenidoComentario = $request->request->get('contenido_comentario');
+
+        if ($contenidoComentario) {
+            $comentario = new Comentario();
+            $comentario->setComentarioPadre($comentarioPadre);
+            $comentario->setUsuario($this->getUser());
+            $comentario->setContenido($contenidoComentario);
+            $comentario->setFechaCreacion(new \DateTimeImmutable());
+
+            $entityManager->persist($comentario);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_muro');
     }
 
 }
