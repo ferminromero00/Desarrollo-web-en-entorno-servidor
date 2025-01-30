@@ -32,6 +32,12 @@
 							dijo:
 							<p>{{ publicacion.contenido }}</p>
 							<small class="text-muted">{{ publicacion.fechaCreacion|date('d/m/Y H:i') }}</small>
+
+							{% if app.user == publicacion.usuario %}
+								<form method="post" action="{{ path('app_eliminar_publicacion', {'id': publicacion.id}) }}" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta publicación?');">
+									<button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+								</form>
+							{% endif %}
 						</div>
 					{% else %}
 						<p class="text-muted">No hay publicaciones aún.</p>
