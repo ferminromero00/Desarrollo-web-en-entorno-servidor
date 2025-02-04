@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Title
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h2>Formulario Agregar Imagen</h2>
+		{{ form_start(imageForm) }}
+		{{ form_row(imageForm.nombre) }}
+		{{ form_row(imageForm.submit) }}
+		{{ form_end(imageForm) }}
+	</div>
+
+    <table class='table table-striped'>
+        <thead>
+            <tr>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in imageList %}
+                <tr>
+                    <td> <img src="{{ asset('images/' ~ item.nombre ) }}"/> </td>
+                </tr>
+            {% else %}
+                <h2>No hay items</h2>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

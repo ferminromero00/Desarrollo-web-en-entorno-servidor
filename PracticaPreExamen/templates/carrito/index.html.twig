@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Title
+{% endblock %}
+
+{% block body %}
+	<div>
+		<table class='table table-striped'>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Precio</th>
+					<th>Cantidad</th>
+					<th>Eliminar</th>
+					<th>Subtotal</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in articulos %}
+					<tr>
+						<td>{{ item.articulo.nombre }}</td>
+						<td>{{ item.articulo.precio }}</td>
+						<td class="d-flex gap-2 align-items-center">
+							<a href={{ path('app_carrito_remove_one', {id:item.articulo.id} ) }} class="btn btn-danger">-</a>
+							<span>{{ item.cantidad }}</span>
+							<a href={{ path('app_carrito_add_one', {id:item.articulo.id} ) }} class="btn btn-success">+</a>
+						</td>
+						<td>
+							<a href={{ path('app_carrito_remove', {id:item.articulo.id} ) }} class="btn btn-danger">Eliminar</a>
+						</td>
+						<td>{{ item.articulo.precio * item.cantidad }}</td>
+					</tr>
+				{% else %}
+					<h2>No hay items</h2>
+				{% endfor %}
+			</tbody>
+		</table>
+		<p class="container">
+			Precio total
+			{{ totalPrecio }}</p>
+
+        <a href={{ path('app_carrito_clear', parameters = []) }} class="btn btn-warning">Limpiar Carrito</a>
+        <a href={{ path('app_carrito_process', parameters = []) }} class="btn btn-dark">Procesar Carrito</a>
+	</div>
+{% endblock %}
