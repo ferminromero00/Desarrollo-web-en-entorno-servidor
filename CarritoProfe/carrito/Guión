@@ -1,0 +1,11 @@
+Instalr Git
+Instalar openssl
+Ejecutar desde el bash de Git
+Gerardo@DESKTOP-40TP4VP MINGW64 /c/xampp/htdocs/dwes/symfony/amazon
+
+$ mkdir -p config/jwt
+openssl genpkey -algorithm RSA -out config/jwt/private.pem -aes256
+openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+
+Palabra secreta: secreto
+
