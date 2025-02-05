@@ -7,25 +7,35 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Usuario
-                property: username  # Cambiar 'email' por 'username' porque en tu entidad se usa 'username'
+                property: username
 
     firewalls:
-        api:
-            pattern: ^/api/
-            stateless: true
-            # Si estás usando JWT, probablemente tengas un bundle como lexik/jwt-authentication-bundle
-            jwt: ~  
-
         main:
+            lazy: true
             provider: app_user_provider
+            entry_point: form_login  # Esto define el formulario como el punto de entrada por defecto
+
+            json_login:
+                check_path: /api/login
+                username_path: username
+                password_path: password
+                success_handler: App\Security\JwtSuccessHandler
+
+            jwt: ~  # Esto es opcional si estás usando JWT solo para ciertas rutas
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: app_muro
+
             logout:
                 path: app_logout
-                target: /login
+                target: app_login
+
+            stateless: false  # Aquí es importante que 'stateless' sea false si usas autenticación de sesión (form_login)
 
     access_control:
-        - { path: ^/api, roles: ROLE_USER }  # Acceso a la API solo para usuarios autenticados con ROLE_USER
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/muro, roles: ROLE_USER }
