@@ -1,0 +1,74 @@
+PRIMERA PARTE:
+
+1. (2 puntos) Al entrar como profesor nos mostrará una página con la siguiente estructura:
+
+En el panel izquierdo todos los instrumentos de los que imparte clase.
+En el panel central todos los instrumentos de los que no imparte clase. 
+Crea un método en el repositorio de Instrumentos para filtrar los instrumentos sobre los que no imparte clase. 
+Al pinchar el enlace 'Añadir":
+Pasaremos al controlador el objeto Instrumento recibido que añadiremos al array instrumentos de la sesión.
+Mostraremos en el panel derecho los instrumentos que vamos añadiendo a la sesión. 
+En el panel derecho deben aparecer todos los instrumentos que vamos añadiendo en el paso anterior guardados en la sesión.
+Eliminar: elimina todos los instrumentos del array instrumentos de la sesión.
+Grabar: actualiza en la base de datos las entidades instrumentos actualizados y mostraremos un mensaje flash en el div de alertas (color verde). Orientaciones:
+Recupera los instrumentos de la sesión.
+Recorre el array de instrumentos.
+Busca en la base de datos el instrumento.
+Actualiza el profesor asignándole el nuevo profesor (sustituye al profesor actual).
+Graba en la base de datos.
+En cualquier caso, siempre debemos volver a la misma página para mostrar los cambios. 
+
+FUNCIONA TODO
+------------------------------------------------------------------------------------------------------------------------------------------------
+2. (3 puntos) Al entrar como alumno nos mostrará una página con la siguiente estructura:
+
+En el panel izquierdo todos los instrumentos en los que está matriculado.
+En el panel central todos los instrumentos en los que se puede matricular y de los que no esté matriculado.
+Utiliza el método del repositorio FindNoMatriculado para filtrar los instrumentos en los que no está matriculado.
+Al pinchar sobre el enlace "Añadir":
+ pasaremos al controlador el objeto instrumento.
+con el instrumento y el usuario crearemos un nuevo objeto matrícula que añadiremos al array de matrículas de la sesión.
+Mostraremos en el panel derecho todas las matrículas que vamos añadiendo a la sesión. 
+En el panel derecho deben aparecer las nuevas matrículas que vamos añadiendo en el paso anterior guardadas en la sesión
+Eliminar: elimina todas las matrículas del array matrículas de la sesión.
+Al pulsar grabar volcaremos los datos en la base de datos y mostraremos un mensaje flash en el div de alertas (color verde). Orientaciones:
+Utiliza la segunda estrategia:
+Recuperar las matrículas de la sesión.
+Recorrer  las matrículas
+Recuperar de nuevo el instrumento de la base de datos
+Asignárselo de nuevo a la matrícula y, persistir la matrícula
+Finalmente persistir el usuario.
+Graba en la base de datos.
+En cualquier caso, siempre debemos volver a la misma página para mostrar los cambios. 
+
+FUNCIONA TODO SALVO EL GRABAR MATRICULAS
+------------------------------------------------------------------------------------------------------------------------------------------------
+3. (1 punto) Crea un microservicio público para obtener todos los instrumentos.
+Ejemplo de uso: http://localhost:8000/public/instrumentos.
+
+FUNCIONA
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Crea un microservicio privado identificado a través de token jwt para obtener los instrumentos que cursa un alumno que se haya identificado previamente:
+
+Configura el servicio /api/login para jwt añadiendo la información necesaria a los ficheros security.yaml y services.yaml.
+Recibirá un json con el username y el password del alumno.
+El cliente devolverá y/o guardará el token en la sesión.
+(1 punto) Crea un método en el controlador TuNombreClienteController accesible a través de la ruta /cliente/login que:
+Recogerá los parámetros username y passaword de la url: $requets->query->get('parametro');
+Llamará al servicio /api/login pasándole el username y el password y recogerá el token (a través de la respuesta y/o a través de la sesión).
+Ejemplo de uso: 
+http://localhost:8000/cliente/login?username=pepe&password=pepe
+Mostrará el login por pantalla y lo guardará en la sesión para futuras solicitudes.
+(2 puntos) Crea un servicio en el controlador TuNombreApiController accesible a través de la ruta /api/matricula que:
+Obtendrá el usuario a partir del token (con $security->getUser())
+Consultará las matrículas de ese usuario.
+De cada matricula consultará el instrumento y lo guardará en un array (No recomiendo utilizar array_map)
+Devolverá el array.
+(1 punto) Crea un método en el controlador TuNombreClienteController /cliente/matricula que:
+Llamará al metodo login del ClienteController pasándole el request que recibe con el username y el password.
+Llamará al servicio /api/matricula pasándole el token y mostrará la respuesta por el navegador.
+Ejemplo de uso:
+http://localhost:8000/cliente/matricula?username=juan&password=juan: muestra los instrumentos que cursa el alumno juan.
+
+NO FUNCIONA NADA
