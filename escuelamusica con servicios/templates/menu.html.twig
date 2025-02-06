@@ -1,0 +1,22 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+           
+                {% if app.user is not null %}
+                    <ul class="navbar-nav">                                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Salir</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ app.user.NombreApellidos }}</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
