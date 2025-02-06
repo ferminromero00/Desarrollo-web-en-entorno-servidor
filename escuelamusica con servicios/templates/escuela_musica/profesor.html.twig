@@ -13,9 +13,16 @@
         <table class="table table-striped table-hover mt-3">
             <caption>
                 <tr>
-                    <th colspan="2">Instrumentos que imparte</td>
+                    <th colspan="4">Instrumentos que imparte</td>
                 </tr>
             </caption>
+            <tr>
+                {% for instrumentos in instrumentosImpartidos %}
+                    <td>
+                        {{instrumentos.nombre}}
+                    </td>
+                {% endfor %}
+            </tr>
            
         </table>
     </div>

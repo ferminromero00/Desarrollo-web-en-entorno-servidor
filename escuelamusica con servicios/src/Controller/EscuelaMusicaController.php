@@ -31,16 +31,22 @@ class EscuelaMusicaController extends AbstractController
     #[Route('/escuela/musica/profesores', name: 'app_profesores')]
     public function profesores(Request $request, EntityManagerInterface $em): Response
     {
-       
+        $user = $this->getUser();
+        $instrumentosImpartidos = $user->getInstrumentos();
+
         return $this->render('escuela_musica/profesor.html.twig', [
-            
+            'instrumentosImpartidos' => $instrumentosImpartidos
         ]);
     }
 
     #[Route('/escuela/musica/alumno', name: 'app_alumno')]
     public function alumno(Request $request, EntityManagerInterface $em): Response
     {
+
+
         return $this->render('escuela_musica/alumno.html.twig', [
+
+
         ]);
     }
 
