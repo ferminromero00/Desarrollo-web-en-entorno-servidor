@@ -16,6 +16,11 @@
                     <th colspan="2">Matrícula actual</td>
                 </tr>
             </caption>
+            {% for matricula in matriculas %}
+                <tr>
+                    <td> {{matricula.instrumento.nombre}} </td>
+                </tr>
+            {% endfor %}
             
         </table>
     </div>

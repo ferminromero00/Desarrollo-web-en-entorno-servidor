@@ -1,58 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Escuela de música{% endblock %}
+{% block title %}Escuela de música
+{% endblock %}
 
 {% block body %}
 
 
-<div class="container mt-4">
-    
-        <div class="header alert alert-success" role="alert"></div>
-    
-    <div class="column">    
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="4">Instrumentos que imparte</td>
-                </tr>
-            </caption>
-            <tr>
-                {% for instrumentos in instrumentosImpartidos %}
-                    <td>
-                        {{instrumentos.nombre}}
-                    </td>
-                {% endfor %}
-            </tr>
-           
-        </table>
-    </div>
-    <div class="column">    
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="2">Instrumentos que puede impartir</th>
-                    <th colspan="2">Profesor</th>
-                </tr>
-            </caption>
-            
-        </table>
-    </div>
-    
-    <div class="column">
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="2">Instrumentos para añadir</td>
-                </tr>
-            </caption>
-           
-            <tfooter>
-                <tr>
-              
-                </tr>
+	<div class="container mt-4">
 
-            </tfooter>
-        </table>
-    </div>
+		<div class="header alert alert-success" role="alert"></div>
+
+		<div class="column">
+			<table class="table table-striped table-hover mt-3">
+				<caption>
+					<tr>
+						<th colspan="4">Instrumentos que imparte</th>
+					</tr>
+				</td>
+			</tr>
+		</caption>
+
+		{% for instrumentos in instrumentosImpartidos %}
+			<tr>
+				<td>
+					{{instrumentos.nombre}}
+				</td>
+			</tr>
+		{% endfor %}
+
+
+	</table>
 </div>
-{% endblock %}
+<div class="column">
+	<table class="table table-striped table-hover mt-3">
+		<caption>
+			<tr>
+				<th colspan="2">Instrumentos que puede impartir</th>
+				<th colspan="2">Profesor</th>
+			</tr>
+		</caption>
+
+		{% for instrumento in instrumentosNoImpartidos %}
+			<tr>
+				<td>
+					{{instrumento.nombre}}
+				</td>
+				<td>
+					{{instrumento.profesor.getNombreApellidos()}}
+				</td>
+				<td>
+					<a href=" {{path('app_añadir_instrumento', {'instrumentoId': instrumento.id})}} ">Añadir</a>
+				</td>
+			</tr>
+		{% endfor %}
+
+
+	</table>
+</div>
+
+<div class="column">
+	<table class="table table-striped table-hover mt-3">
+		<caption>
+			<tr>
+				<th colspan="2">Instrumentos para añadir</th>
+			</tr>
+		</caption>
+		{% for instrumento in instrumentosAñadidos %}
+			<tr>
+				<td colspan="2">
+					{{instrumento.nombre}}
+				</td>
+                
+			</tr>
+		{% endfor %}
+		<tr>
+			<td>
+				<a href=" {{path('app_grabar_instrumento')}} ">Grabar</a>
+			</td>
+			<td>
+				<a href=" {{path('app_eliminar_instrumento')}} ">Eliminar</a>
+			</td>
+		</tr>
+	</td>
+</tr>
+
+<tfooter>
+	<tr></tr>
+
+</tfooter></table></div></div>{% endblock %}

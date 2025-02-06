@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Instrumento;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Usuario;
 
 /**
  * @extends ServiceEntityRepository<Instrumento>
@@ -16,6 +17,19 @@ class InstrumentoRepository extends ServiceEntityRepository
         parent::__construct($registry, Instrumento::class);
     }
 
+    public function findNoImpartidosPorProfesor(int $profesorId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i', 'p')
+            ->leftJoin('i.profesor', 'p')
+            ->leftJoin('App\Entity\Matricula', 'm', 'WITH', 'm.instrumento = i')
+            ->where('p.id IS NULL OR p.id != :profesorId')
+            ->setParameter('profesorId', $profesorId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function findNoMatriculado(int $alumnoId): array
     {
 
@@ -26,7 +40,7 @@ class InstrumentoRepository extends ServiceEntityRepository
             ->setParameter('alumnoId', $alumnoId)
             ->getQuery()
             ->getResult();
-    }    
+    }
 
     public function findOneBySomeField($value): ?Instrumento
     {
@@ -36,5 +50,16 @@ class InstrumentoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findNoMatriculadoPorAlumno(Usuario $usuario): array
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.matriculas', 'm')
+            ->leftJoin('m.alumno', 'a')
+            ->where('a.id != :usuarioId OR a.id is NULL')
+            ->setParameter('usuarioId', $usuario->getId())
+            ->getQuery()
+            ->getResult();
     }
 }
