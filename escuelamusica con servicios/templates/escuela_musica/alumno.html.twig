@@ -4,10 +4,15 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="container mt-4">
 
-		<div class="header alert alert-success" role="alert"></div>
+		<div class="header alert alert-success" role="alert">
+			{% for message in app.flashes('success') %}
+				<div>
+					{{message}}
+				</div>
+			{% endfor %}
+		</div>
 
 
 		<div class="column">

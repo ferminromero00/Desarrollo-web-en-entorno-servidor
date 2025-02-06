@@ -63,11 +63,11 @@ class EscuelaMusicaController extends AbstractController
         $user = $this->getUser();
 
         foreach ($instrumentosAñadidos as $instrumento) {
-            $instrumentoEntity = $em->getRepository(Instrumento::class)->find($instrumento->getId());
+            $intrumentoSelect = $em->getRepository(Instrumento::class)->find($instrumento->getId());
 
-            if ($instrumentoEntity) {
-                $instrumentoEntity->setProfesor($user);
-                $em->persist($instrumentoEntity);
+            if ($intrumentoSelect) {
+                $intrumentoSelect->setProfesor($user);
+                $em->persist($intrumentoSelect);
             }
         }
 
