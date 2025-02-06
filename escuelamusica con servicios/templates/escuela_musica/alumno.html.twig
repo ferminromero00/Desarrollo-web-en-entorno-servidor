@@ -1,55 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Escuela de música{% endblock %}
+{% block title %}Escuela de música
+{% endblock %}
 
 {% block body %}
 
-<div class="container mt-4">
-   
-        <div class="header alert alert-success" role="alert"></div>
-    
-    
-    <div class="column">    
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="2">Matrícula actual</td>
-                </tr>
-            </caption>
-            {% for matricula in matriculas %}
-                <tr>
-                    <td> {{matricula.instrumento.nombre}} </td>
-                </tr>
-            {% endfor %}
-            
-        </table>
-    </div>
-    <div class="column">    
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="2">Instrumentos para matricular</td>
-                </tr>
-            </caption>
-           
-        </table>
-    </div>
-    
-    <div class="column">
-        <table class="table table-striped table-hover mt-3">
-            <caption>
-                <tr>
-                    <th colspan="2">Matrícula a grabar</td>
-                </tr>
-            </caption>
-          
-            <tfooter>
-                <tr>
-                   
-                </tr>
+	<div class="container mt-4">
 
-            </tfooter>
-        </table>
-    </div>
+		<div class="header alert alert-success" role="alert"></div>
+
+
+		<div class="column">
+			<table class="table table-striped table-hover mt-3">
+				<caption>
+					<tr>
+						<th colspan="2">Matrícula actual</th>
+					</tr>
+				</td>
+			</tr>
+		</caption>
+		{% for matricula in matriculas %}
+			<tr>
+				<td>
+					{{matricula.instrumento.nombre}}
+				</td>
+			</tr>
+		{% endfor %}
+
+	</table>
 </div>
-{% endblock %}
+<div class="column">
+	<table class="table table-striped table-hover mt-3">
+		<caption>
+			<tr>
+				<th colspan="2">Instrumentos para matricular</th>
+			</tr>
+		</td>
+	</tr>
+</caption>
+{% for instrumento in instrumentosNoMatriculados %}
+	<tr>
+		<td>
+			{{instrumento.nombre}}
+		</td>
+		<td>
+			<a href=" {{path('app_añadir_matricula', {'instrumentoId': instrumento.id})}} ">Añadir</a>
+		</td>
+	</tr>
+{% endfor %}</table></div><div class="column"><table class="table table-striped table-hover mt-3">
+<caption>
+	<tr>
+		<th colspan="2">Matrícula a grabar</th>
+	</tr>
+</td></tr></caption>{% for matricula in matriculasAñadidas %}<tr>
+<td colspan="2">
+	{{matricula.instrumento.nombre}}
+</td></tr><tr>{% endfor %}<td>
+<a href=" {{path('app_grabar_matricula')}} ">Grabar</a></td><td>
+<a href=" {{path('app_eliminar_matricula')}} ">Eliminar</a></td></tr><tfooter><tr></tr></tfooter></table></div></div>{% endblock %}

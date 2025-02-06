@@ -50,7 +50,6 @@ class EscuelaMusicaController extends AbstractController
         $instrumento = $em->getRepository(Instrumento::class)->find($instrumentoId);
 
         $instrumentosAñadidos = $session->get('instrumentoAñadidos', []);
-
         $instrumentosAñadidos[] = $instrumento;
         $session->set('instrumentoAñadidos', $instrumentosAñadidos);
 
@@ -84,11 +83,9 @@ class EscuelaMusicaController extends AbstractController
     public function eliminarInstrumentos(Request $request, EntityManagerInterface $em, SessionInterface $session): Response
     {
         $session->remove('instrumentoAñadidos');
-        $this->addFlash('success', 'Intrumentos eliminados con exito');
         return $this->redirectToRoute('app_profesores');
 
     }
-
 
     #[Route('/escuela/musica/alumno', name: 'app_alumno')]
     public function alumno(Request $request, EntityManagerInterface $em, SessionInterface $session): Response
@@ -96,7 +93,7 @@ class EscuelaMusicaController extends AbstractController
         $user = $this->getUser();
         $matriculas = $em->getRepository(Matricula::class)->findBy(['alumno' => $user]);
         $instrumentosNoMatriculados = $em->getRepository(Instrumento::class)->findNoMatriculadoPorAlumno($user);
-        $matriculasAñadidas = $session->get('matriculas', []);
+        $matriculasAñadidas = $session->get('matriculasAñadidas', []);
 
         return $this->render('escuela_musica/alumno.html.twig', [
             'matriculas' => $matriculas,
@@ -105,5 +102,44 @@ class EscuelaMusicaController extends AbstractController
         ]);
     }
 
+    #[Route('/escuela/musica/alumno/añadir/{instrumentoId}', name: 'app_añadir_matricula')]
+    public function añadirMatricula(int $instrumentoId, SessionInterface $session, EntityManagerInterface $em): Response
+    {
+        $instrumento = $em->getRepository(Instrumento::class)->find($instrumentoId);
+
+        $matricula = new Matricula();
+        $matricula->setInstrumento($instrumento);
+        $matricula->setAlumno($this->getUser());
+
+        $matriculasAñadidas = $session->get('matriculasAñadidas', []);
+        $matriculasAñadidas[] = $matricula;
+        $session->set('matriculasAñadidas', $matriculasAñadidas);
+
+        return $this->redirectToRoute('app_alumno');
+    }
+
+    #[Route('/escuela/musica/alumno/grabar', name: 'app_grabar_matricula')]
+    public function grabarMatricula(Request $request, EntityManagerInterface $em, SessionInterface $session): Response
+    {
+        $matriculasAñadidas = $request->getSession()->get('matriculasAñadidas', []);
+        $usuario = $this->getUser();
+
+        foreach ($matriculasAñadidas as $matricula) {
+            $matricula->setAlumno($usuario);
+            $em->persist($matricula);
+        }
+
+        $em->flush();
+        $session->remove('matriculasAñadidas');
+        return $this->redirectToRoute('app_alumno');
+    }
+
+    #[Route('/escuela/musica/alumno/eliminar', name: 'app_eliminar_matricula')]
+    public function eliminarMatricula(Request $request, EntityManagerInterface $em, SessionInterface $session): Response
+    {
+        $session->remove('matriculasAñadidas');
+        return $this->redirectToRoute('app_alumno');
+
+    }
 
 }
