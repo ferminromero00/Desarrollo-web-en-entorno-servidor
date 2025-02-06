@@ -141,5 +141,4 @@ class EscuelaMusicaController extends AbstractController
         return $this->redirectToRoute('app_alumno');
 
     }
-
 }
