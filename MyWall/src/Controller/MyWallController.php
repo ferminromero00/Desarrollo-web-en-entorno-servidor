@@ -116,8 +116,29 @@ class MyWallController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('app_muro');
+    }
+
+    #[Route('/publicacion/{id}/comentar2', name: 'app_comentar_publicacion2', methods: ['POST'])]
+    public function comentar2(Publicacion $publicacion, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $contenidoComentario = $request->request->get('contenido_comentario');
+
+        if ($contenidoComentario) {
+            $comentario = new Comentario();
+            $comentario->setPublicacion($publicacion);
+            $comentario->setUsuario($this->getUser());
+            $comentario->setContenido($contenidoComentario);
+            $comentario->setFechaCreacion(new \DateTimeImmutable());
+
+            $entityManager->persist($comentario);
+            $entityManager->flush();
+        }
+
         return $this->redirectToRoute('app_muro_usuario', ['id' => $publicacion->getUsuario()->getId()]);
     }
+
+
 
     #[Route('/comentario/{id}/responder', name: 'app_responder_comentario', methods: ['POST'])]
     public function responder(Comentario $comentarioPadre, Request $request, EntityManagerInterface $entityManager): Response

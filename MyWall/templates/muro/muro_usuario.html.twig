@@ -25,7 +25,7 @@
 						<p>{{ publicacion.contenido }}</p>
 
 						<!-- Formulario de comentarios -->
-						<form method="post" action="{{ path('app_comentar_publicacion', {'id': publicacion.id}) }}">
+						<form method="post" action="{{ path('app_comentar_publicacion2', {'id': publicacion.id}) }}">
 							<div class="mt-3">
 								<textarea class="form-control" name="contenido_comentario" rows="2" placeholder="Escribe un comentario..." required></textarea>
 							</div>

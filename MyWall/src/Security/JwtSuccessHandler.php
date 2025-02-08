@@ -20,18 +20,14 @@ class JwtSuccessHandler implements AuthenticationSuccessHandlerInterface
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): JsonResponse
     {
-        // Decodifica el token para obtener el usuario
         $user = $token->getUser();
 
-        // Si no es un usuario de tipo User, generamos una excepción o enviamos un mensaje
         if (!$user instanceof UserInterface) {
-            return new JsonResponse(['error' => 'Usuario no válido'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['error' => 'Invalid user'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        // Creamos el token JWT
         $jwt = $this->jwtManager->create($user);
 
-        // Retornamos el token generado
         return new JsonResponse(['token' => $jwt], JsonResponse::HTTP_OK);
     }
 }
