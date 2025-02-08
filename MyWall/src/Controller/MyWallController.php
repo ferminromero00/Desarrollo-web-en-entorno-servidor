@@ -6,6 +6,7 @@ use App\Entity\Comentario;
 use App\Entity\Publicacion;
 use App\Form\PublicacionType;
 use Doctrine\ORM\EntityManagerInterface;
+use Proxies\__CG__\App\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,26 +20,32 @@ class MyWallController extends AbstractController
         $publicacion = new Publicacion();
         $form = $this->createForm(PublicacionType::class, $publicacion);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $publicacion->setUsuario($this->getUser());
             $publicacion->setFechaCreacion(new \DateTimeImmutable());
             $entityManager->persist($publicacion);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('app_muro');
         }
-    
+
         // Obtener solo las publicaciones del usuario logueado
         $publicaciones = $entityManager->getRepository(Publicacion::class)
             ->findBy(['usuario' => $this->getUser()], ['fechaCreacion' => 'DESC']);
-    
+
+        $usuarios = $entityManager->getRepository(Usuario::class)->findAll();
+
+        // dd(vars: $usuarios);
+
         return $this->render('muro/index.html.twig', [
             'form' => $form->createView(),
-            'publicaciones' => $publicaciones, // Enviar solo las publicaciones del usuario logueado
+            'publicaciones' => $publicaciones,
+            'usuarios' => $usuarios,
+            'usuarioActual' => $this->getUser(),
         ]);
     }
-    
+
 
     #[Route('/publicar', name: 'app_publicar', methods: ['POST'])]
     public function publicar(Request $request, EntityManagerInterface $entityManager): Response
@@ -109,7 +116,7 @@ class MyWallController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_muro');
+        return $this->redirectToRoute('app_muro_usuario', ['id' => $publicacion->getUsuario()->getId()]);
     }
 
     #[Route('/comentario/{id}/responder', name: 'app_responder_comentario', methods: ['POST'])]
@@ -129,6 +136,26 @@ class MyWallController extends AbstractController
         }
 
         return $this->redirectToRoute('app_muro');
+    }
+
+    #[Route('/muro/{id}', name: 'app_muro_usuario')]
+    public function muroUsuario(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $usuario = $entityManager->getRepository(Usuario::class)->find($id);
+
+        if (!$usuario) {
+            throw $this->createNotFoundException('Usuario no encontrado.');
+        }
+
+        $publicaciones = $entityManager->getRepository(Publicacion::class)->findBy(
+            ['usuario' => $usuario],
+            ['fechaCreacion' => 'DESC']
+        );
+
+        return $this->render('muro/muro_usuario.html.twig', [
+            'usuario' => $usuario,
+            'publicaciones' => $publicaciones,
+        ]);
     }
 
 }
