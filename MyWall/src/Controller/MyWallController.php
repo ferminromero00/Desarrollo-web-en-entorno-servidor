@@ -100,6 +100,45 @@ class MyWallController extends AbstractController
         $em->remove($comentario);
     }
 
+    #[Route('/comentario/{id}/eliminar', name: 'app_eliminar_comentario', methods: ['POST'])]
+    public function eliminarComentario(Comentario $comentario, EntityManagerInterface $entityManager): Response
+    {
+        // Asegúrate de que el usuario sea el propietario del comentario
+        if ($comentario->getUsuario() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('No tienes permiso para eliminar este comentario.');
+        }
+
+        // Eliminar los comentarios hijos si existen
+        $this->eliminarComentariosHijos($comentario, $entityManager);
+
+        // Eliminar el comentario
+        $entityManager->remove($comentario);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_muro');
+    }
+
+    #[Route('/comentario/{id}/eliminar2', name: 'app_eliminar_comentario2', methods: ['POST'])]
+    public function eliminarComentario2(Comentario $comentario, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // Asegúrate de que el usuario sea el propietario del comentario
+        if ($comentario->getUsuario() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('No tienes permiso para eliminar este comentario.');
+        }
+
+        // Eliminar los comentarios hijos si existen
+        $this->eliminarComentariosHijos($comentario, $entityManager);
+
+        // Eliminar el comentario
+        $entityManager->remove($comentario);
+        $entityManager->flush();
+
+        // Redirigir a la misma página en la que estaba el usuario
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+
+
     #[Route('/publicacion/{id}/comentar', name: 'app_comentar_publicacion', methods: ['POST'])]
     public function comentar(Publicacion $publicacion, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -137,7 +176,6 @@ class MyWallController extends AbstractController
 
         return $this->redirectToRoute('app_muro_usuario', ['id' => $publicacion->getUsuario()->getId()]);
     }
-
 
 
     #[Route('/comentario/{id}/responder', name: 'app_responder_comentario', methods: ['POST'])]

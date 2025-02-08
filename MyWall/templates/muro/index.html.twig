@@ -74,33 +74,40 @@
 							<!-- Mostrar los comentarios debajo de la publicación -->
 							<div class="mt-3">
 								{% for comentario in publicacion.comentarios %}
-									<div class="border-top pt-2 mt-2" style="margin-left: 20px;">
-										<strong>{{ comentario.usuario.username }}</strong>
-										ha comentado:
-										<p>{{ comentario.contenido }}</p>
-										<small class="text-muted">{{ comentario.fechaCreacion|date('d/m/Y H:i') }}</small>
+    <div class="border-top pt-2 mt-2" style="margin-left: 20px;">
+        <strong>{{ comentario.usuario.username }}</strong>
+        ha comentado:
+        <p>{{ comentario.contenido }}</p>
+        <small class="text-muted">{{ comentario.fechaCreacion|date('d/m/Y H:i') }}</small>
 
-										<!-- Formulario para responder a un comentario -->
-										<form method="post" action="{{ path('app_responder_comentario', {'id': comentario.id}) }}" class="mt-2">
-											<div class="mt-2">
-												<textarea class="form-control" name="contenido_comentario" rows="2" placeholder="Responde a este comentario..." required></textarea>
-											</div>
-											<button type="submit" class="btn btn-secondary mt-2">Responder</button>
-										</form>
+        <!-- Formulario para eliminar comentario (solo si el usuario es el propietario) -->
+        {% if comentario.usuario == app.user %}
+            <form method="post" action="{{ path('app_eliminar_comentario', {'id': comentario.id}) }}" class="mt-2">
+                <button type="submit" class="btn btn-danger">Eliminar comentario</button>
+            </form>
+        {% endif %}
 
-										<!-- Respuestas anidadas -->
-										<div class="mt-3" style="margin-left: 40px;">
-											{% for respuesta in comentario.comentarios %}
-												<div class="border-top pt-2 mt-2">
-													<strong>{{ respuesta.usuario.username }}</strong>
-													ha respondido:
-													<p>{{ respuesta.contenido }}</p>
-													<small class="text-muted">{{ respuesta.fechaCreacion|date('d/m/Y H:i') }}</small>
-												</div>
-											{% endfor %}
-										</div>
-									</div>
-								{% endfor %}
+        <!-- Formulario para responder a un comentario -->
+        <form method="post" action="{{ path('app_responder_comentario', {'id': comentario.id}) }}" class="mt-2">
+            <div class="mt-2">
+                <textarea class="form-control" name="contenido_comentario" rows="2" placeholder="Responde a este comentario..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-secondary mt-2">Responder</button>
+        </form>
+
+        <!-- Respuestas anidadas -->
+        <div class="mt-3" style="margin-left: 40px;">
+            {% for respuesta in comentario.comentarios %}
+                <div class="border-top pt-2 mt-2">
+                    <strong>{{ respuesta.usuario.username }}</strong>
+                    ha respondido:
+                    <p>{{ respuesta.contenido }}</p>
+                    <small class="text-muted">{{ respuesta.fechaCreacion|date('d/m/Y H:i') }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
 							</div>
 						</div>
 					{% else %}

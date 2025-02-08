@@ -36,8 +36,8 @@ security:
 
       # Configuración de logout
       logout:
-        path: /api/logout
-        target: /app_login
+        path: /logout
+        target: /
 
   # Control de acceso a las rutas
   access_control:

@@ -40,6 +40,13 @@
 									ha comentado:
 									<p>{{ comentario.contenido }}</p>
 									<small class="text-muted">{{ comentario.fechaCreacion|date('d/m/Y H:i') }}</small>
+
+									<!-- Formulario para eliminar comentario (solo si el usuario es el propietario) -->
+									{% if comentario.usuario == app.user %}
+										<form method="post" action="{{ path('app_eliminar_comentario2', {'id': comentario.id}) }}" class="mt-2">
+											<button type="submit" class="btn btn-danger">Eliminar comentario</button>
+										</form>
+									{% endif %}
 								</div>
 							{% endfor %}
 						</div>
