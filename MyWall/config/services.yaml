@@ -18,4 +18,4 @@ services:
     # Add the JwtSuccessHandler service configuration
     App\Security\JwtSuccessHandler:
         tags:
-            - { name: "kernel.event_listener", event: "lexik_jwt_authentication.on_authentication_success", method: "onAuthenticationSuccess" }
+            - { name: 'kernel.event_listener', event: 'lexik_jwt_authentication.on_authentication_success', method: 'onAuthenticationSuccess' }
