@@ -1,0 +1,8 @@
+knp_paginator:
+    page_range: 5    # Número de páginas mostradas en la navegación
+    default_options:
+        page_name: page  # Nombre del parámetro GET para la página
+        sort_field_name: sort
+        sort_direction_name: direction
+    template:
+        pagination: '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig'  # Usa Bootstrap 5
