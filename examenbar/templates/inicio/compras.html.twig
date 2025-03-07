@@ -13,12 +13,23 @@
         <tr>
             <th>Fecha</th>
             <th>Cantidad</th>
+            <th>Proveedor</th>
+            <th>Factura</th>
             <th>Acciones</th>
         </tr>
-        {% for e in caja %}
+        {% for e in compras %}
             <tr>
                <td> {{e.fecha|date("d/m/Y")}} </td>
                <td> {{e.cantidad}} € </td>
+               <td> {{e.proveedor.nombre}}</td>
+               <td> 
+                    {% if e.factura == 1  %}
+                        A
+                    {% else %}
+                        B
+                    {% endif %}
+                </td>
+
                <td>
                     <button><a href="">MODIFICAR</a></button>
                </td>
@@ -27,6 +38,8 @@
         <tr>
             <th>TOTAL</th>
             <th> {{total}} € </th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </table>

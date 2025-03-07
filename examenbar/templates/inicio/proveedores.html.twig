@@ -11,24 +11,17 @@
 <div class="container">
     <table class="table table-striped table-hover">
         <tr>
-            <th>Fecha</th>
-            <th>Cantidad</th>
+            <th>Nombre</th>
             <th>Acciones</th>
         </tr>
-        {% for e in caja %}
+        {% for e in proveedores %}
             <tr>
-               <td> {{e.fecha|date("d/m/Y")}} </td>
-               <td> {{e.cantidad}} € </td>
+               <td> {{e.nombre}} </td>
                <td>
                     <button><a href="">MODIFICAR</a></button>
                </td>
             </tr>
         {% endfor %}
-        <tr>
-            <th>TOTAL</th>
-            <th> {{total}} € </th>
-            <th></th>
-        </tr>
     </table>
 </div>
 
