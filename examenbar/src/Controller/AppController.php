@@ -36,7 +36,6 @@ class AppController extends AbstractController
             'total' => $total,
         ]);
     }
-
     #[Route('/caja/modificar/{CajaId}/edit', name: 'app_modificar_caja')]
     public function cajaModificar(EntityManagerInterface $em, int $CajaId): Response
     {
@@ -106,6 +105,14 @@ class AppController extends AbstractController
         }
         return $this->render('inicio/proveedores.html.twig', [
             'proveedores' => $arrayProveedores,
+        ]);
+    }
+    #[Route('/proveedores/modificar/{ProveedorId}/edit', name: 'app_modificar_proveedor')]
+    public function proveedorModificar(EntityManagerInterface $em, int $ProveedorId): Response
+    {
+        $proveedor = $em->getRepository(Proveedor::class)->findBy(['id' => $ProveedorId]);
+        return $this->render('inicio/modificarProveedor.html.twig', [
+            'proveedor' => $proveedor
         ]);
     }
 }
