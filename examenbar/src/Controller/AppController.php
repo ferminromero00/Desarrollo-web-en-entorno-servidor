@@ -44,6 +44,12 @@ class AppController extends AbstractController
             'caja' => $caja
         ]);
     }
+    #[Route('/caja/new', name: 'app_nueva_caja')]
+    public function cajaNueva(EntityManagerInterface $em): Response
+    {
+        return $this->render('inicio/newCaja.html.twig', [
+        ]);
+    }
     #[Route('/compras', name: 'app_compras')]
     public function compras(EntityManagerInterface $em): Response
     {
@@ -65,6 +71,12 @@ class AppController extends AbstractController
         return $this->render('inicio/compras.html.twig', [
             'compras' => $arrayCompras,
             'total' => $total
+        ]);
+    }
+    #[Route('/compras/new', name: 'app_nueva_compra')]
+    public function compraNueva(EntityManagerInterface $em): Response
+    {
+        return $this->render('inicio/newCompra.html.twig', [
         ]);
     }
     #[Route('/compras/modificar/{CompraId}/edit', name: 'app_modificar_compra')]
@@ -105,6 +117,12 @@ class AppController extends AbstractController
         }
         return $this->render('inicio/proveedores.html.twig', [
             'proveedores' => $arrayProveedores,
+        ]);
+    }
+    #[Route('/proveedor/new', name: 'app_nuevo_proveedor')]
+    public function proveedorNueva(EntityManagerInterface $em): Response
+    {
+        return $this->render('inicio/newProveedor.html.twig', [
         ]);
     }
     #[Route('/proveedores/modificar/{ProveedorId}/edit', name: 'app_modificar_proveedor')]
