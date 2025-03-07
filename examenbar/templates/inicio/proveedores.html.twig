@@ -16,13 +16,17 @@
         <tr>
             <th>Nombre</th>
             <th>Acciones</th>
+
         </tr>
         {% for e in proveedores %}
             <tr>
                <td> {{e.nombre}} </td>
                <td>
                     <button><a href="{{path('app_modificar_proveedor', {'ProveedorId': e.id})}}">MODIFICAR</a></button>
+                    <button><a href="{{path('app_proveedor_compras', {'ProveedorId': e.id})}}">VER COMPRAS DE ESTE PROVEEDOR</a></button>
                </td>
+               <td>
+           </td>
             </tr>
         {% endfor %}
     </table>

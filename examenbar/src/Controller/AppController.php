@@ -133,4 +133,14 @@ class AppController extends AbstractController
             'proveedor' => $proveedor
         ]);
     }
+    #[Route('/proveedores/compras/{ProveedorId}/ver', name: 'app_proveedor_compras')]
+    public function proveedorCompras(EntityManagerInterface $em, int $ProveedorId): Response
+    {
+        $proveedor = $em->getRepository(Proveedor::class)->findBy(['id' => $ProveedorId]);
+
+        dump($proveedor);
+        return $this->render('inicio/comprasProveedor.html.twig', [
+            'proveedor' => $proveedor
+        ]);
+    }
 }
